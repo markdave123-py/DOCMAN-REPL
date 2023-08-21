@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyJwt = exports.userEmail = void 0;
+exports.verifyJwt = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var Errors_1 = require("../commonErrors/Errors/Errors");
 var verifyJwt = function (req, res, next) {
@@ -20,9 +20,10 @@ var verifyJwt = function (req, res, next) {
             throw new Errors_1.ForbiddenError("Could not verify token try again later!!!");
         }
         ;
-        exports.userEmail = decoded.username;
+        var userEmail = decoded.username;
         console.log(decoded);
         next();
+        return userEmail;
     });
 };
 exports.verifyJwt = verifyJwt;

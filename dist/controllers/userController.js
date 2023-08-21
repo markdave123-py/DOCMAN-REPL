@@ -40,32 +40,37 @@ exports.createNewUser = void 0;
 var user_1 = require("../models/user");
 var hash_1 = require("../utils/hash");
 var createNewUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, firstName, lastName, phoneNumber, email, password, newUser, validationError, savedUser, error_1;
+    var _a, firstName, lastName, phoneNumber, email, password, user, hashedPassword, newUser, savedUser, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 2, , 3]);
+                _b.trys.push([0, 4, , 5]);
                 _a = req.body, firstName = _a.firstName, lastName = _a.lastName, phoneNumber = _a.phoneNumber, email = _a.email, password = _a.password;
+                return [4 /*yield*/, user_1.User.findOne({ email: email })];
+            case 1:
+                user = _b.sent();
+                if (user) {
+                    res.status(403).json({ "message": "user with this email alread exists" });
+                }
+                return [4 /*yield*/, (0, hash_1.hashPassword)(password)];
+            case 2:
+                hashedPassword = _b.sent();
                 newUser = new user_1.User({
                     firstName: firstName,
                     lastName: lastName,
                     phoneNumber: phoneNumber,
                     email: email,
-                    password: (0, hash_1.hashPassword)(password)
+                    password: hashedPassword
                 });
-                validationError = newUser.validateSync();
-                if (validationError) {
-                    return [2 /*return*/, res.status(404).json({ error: 'missing required fields' })];
-                }
                 return [4 /*yield*/, newUser.save()];
-            case 1:
+            case 3:
                 savedUser = _b.sent();
                 return [2 /*return*/, res.status(201).json(savedUser)];
-            case 2:
+            case 4:
                 error_1 = _b.sent();
                 console.error('Error saving this user', error_1);
                 return [2 /*return*/, res.status(500).json({ error: "something went wrong" })];
-            case 3: return [2 /*return*/];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

@@ -5,7 +5,8 @@ export const createNewUserSchema = {
         email: Joi.string().required(),
         password: Joi.string().required(),
         firstName: Joi.string().required(),
-        lastName: Joi.string().required()
+        lastName: Joi.string().required(),
+        phoneNumber: Joi.string().required()
     })
 }
 

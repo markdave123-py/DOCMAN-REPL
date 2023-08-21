@@ -9,12 +9,22 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
 
         const { firstName, lastName,phoneNumber, email,  password} = req.body;
 
+        const user = await User.findOne({email: email})
+
+        if (user) 
+        {
+            return res.status(403).json({"message": "user with this email alread exists"});
+
+        }
+
+        const hashedPassword = await hashPassword(password);
+
         const newUser = new User({
             firstName,
             lastName,
             phoneNumber,
             email,
-            password: hashPassword(password)
+            password: hashedPassword
         });
     
         const validationError = newUser.validateSync();

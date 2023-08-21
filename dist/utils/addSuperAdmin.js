@@ -41,26 +41,27 @@ var admin_1 = require("../models/admin");
 var env_1 = require("../config/env");
 var hash_1 = require("./hash");
 var addAdminToDb = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var allAdmin, newAdmin, savedSuperAdmin;
+    var allAdmin, hashedPassword, newAdmin;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, admin_1.Admin.countDocuments()];
             case 1:
                 allAdmin = _a.sent();
-                if (!(allAdmin === 0)) return [3 /*break*/, 3];
-                newAdmin = new admin_1.Admin({
-                    firstName: env_1.config.super_admin.firstName,
-                    lastName: env_1.config.super_admin.lastName,
-                    phoneNumber: env_1.config.super_admin.phoneNumber,
-                    email: env_1.config.super_admin.email,
-                    password: (0, hash_1.hashPassword)(env_1.config.super_admin.password)
-                });
-                return [4 /*yield*/, newAdmin.save()];
+                if (!(allAdmin === 0)) return [3 /*break*/, 4];
+                return [4 /*yield*/, (0, hash_1.hashPassword)(env_1.config.super_admin.password)];
             case 2:
-                savedSuperAdmin = _a.sent();
-                console.log(savedSuperAdmin);
-                _a.label = 3;
-            case 3: return [2 /*return*/];
+                hashedPassword = _a.sent();
+                return [4 /*yield*/, admin_1.Admin.create({
+                        firstName: env_1.config.super_admin.firstName,
+                        lastName: env_1.config.super_admin.lastName,
+                        phoneNumber: env_1.config.super_admin.phoneNumber,
+                        email: env_1.config.super_admin.email,
+                        password: hashedPassword
+                    })];
+            case 3:
+                newAdmin = _a.sent();
+                return [2 /*return*/, newAdmin];
+            case 4: return [2 /*return*/];
         }
     });
 }); };

@@ -27,7 +27,6 @@ export const adminSchema = new Schema<IADMIN>({
     },
     phoneNumber: {
         type: String,
-        unique: true,
         required: true
     },
     password: {

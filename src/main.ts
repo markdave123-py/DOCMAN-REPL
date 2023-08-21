@@ -2,9 +2,8 @@
 import express, { Request, Response } from 'express';
 import {connectToDatabase} from "./config/database"
 import { config } from './config/env';
-import { addAdminToDb, savedSuperAdmin1 } from './utils/addSuperAdmin';
-
-
+import { addAdminToDb } from './utils/addSuperAdmin';
+import { router } from './routes/userRoute';
 
 const app = express();
 
@@ -16,13 +15,17 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello, World!');
 });
 
-// Connect to the database
+
+app.use('/', router);
+
+
+
 connectToDatabase()
   .then(() => {
   // Start the server after successful database connection
   console.log(`sucessfully connected to the database ${config.mongoUrl}`)
-  app.listen(config.port, () => {
-    addAdminToDb();
-    console.log(`Server is running on http://localhost:${config.port}`, savedSuperAdmin1);
+  app.listen(config.port, async () => {
+    await addAdminToDb();
+    console.log(`Server is running on http://localhost:${config.port}`);
   });
 });
