@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { UNAUTHORIZED_ERROR, ForbiddenError } from '../commonErrors/Errors/Errors';
 
 
-
+export let userEmail: string ;
 
 export const verifyJwt =  (req: Request, res: Response, next: NextFunction) => {
     // console.log(req.headers)
@@ -21,10 +21,11 @@ export const verifyJwt =  (req: Request, res: Response, next: NextFunction) => {
             if(err) {
                 res.json({'message': 'Could not verify token try again later!!!'})
                 throw new ForbiddenError("Could not verify token try again later!!!")};
-            let userEmail = decoded.username;
+            userEmail = decoded.username;
             console.log(decoded);
+            console.log(userEmail)
             next();
-            return userEmail
+            
             
         }  
 

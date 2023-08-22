@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyJwt = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var Errors_1 = require("../commonErrors/Errors/Errors");
+var userEmail;
 var verifyJwt = function (req, res, next) {
     // console.log(req.headers)
     var authHeader = req.headers['authorization'];
@@ -20,10 +21,10 @@ var verifyJwt = function (req, res, next) {
             throw new Errors_1.ForbiddenError("Could not verify token try again later!!!");
         }
         ;
-        var userEmail = decoded.username;
+        userEmail = decoded.username;
         console.log(decoded);
+        console.log(userEmail);
         next();
-        return userEmail;
     });
 };
 exports.verifyJwt = verifyJwt;

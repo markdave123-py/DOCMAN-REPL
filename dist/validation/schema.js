@@ -10,7 +10,8 @@ exports.createNewUserSchema = {
         email: joi_1.default.string().required(),
         password: joi_1.default.string().required(),
         firstName: joi_1.default.string().required(),
-        lastName: joi_1.default.string().required()
+        lastName: joi_1.default.string().required(),
+        phoneNumber: joi_1.default.string().required()
     })
 };
 exports.userLoginSchema = {

@@ -40,7 +40,7 @@ exports.createNewUser = void 0;
 var user_1 = require("../models/user");
 var hash_1 = require("../utils/hash");
 var createNewUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, firstName, lastName, phoneNumber, email, password, user, hashedPassword, newUser, savedUser, error_1;
+    var _a, firstName, lastName, phoneNumber, email, password, user, hashedPassword, newUser, validationError, savedUser, error_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -50,7 +50,7 @@ var createNewUser = function (req, res, next) { return __awaiter(void 0, void 0,
             case 1:
                 user = _b.sent();
                 if (user) {
-                    res.status(403).json({ "message": "user with this email alread exists" });
+                    return [2 /*return*/, res.status(403).json({ "message": "user with this email alread exists" })];
                 }
                 return [4 /*yield*/, (0, hash_1.hashPassword)(password)];
             case 2:
@@ -62,6 +62,10 @@ var createNewUser = function (req, res, next) { return __awaiter(void 0, void 0,
                     email: email,
                     password: hashedPassword
                 });
+                validationError = newUser.validateSync();
+                if (validationError) {
+                    return [2 /*return*/, res.status(404).json({ error: 'missing required fields' })];
+                }
                 return [4 /*yield*/, newUser.save()];
             case 3:
                 savedUser = _b.sent();

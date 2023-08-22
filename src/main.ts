@@ -4,6 +4,7 @@ import {connectToDatabase} from "./config/database"
 import { config } from './config/env';
 import { addAdminToDb } from './utils/addSuperAdmin';
 import { router } from './routes/userRoute';
+import { verifyJwt } from './middlewares/verifyToken';
 
 const app = express();
 
@@ -18,6 +19,12 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/', router);
 
+
+app.use(verifyJwt);
+
+app.get('/testing', (req: Request, res: Response) => {
+  res.status(200).json({'message': 'done'});
+})
 
 
 connectToDatabase()
