@@ -43,3 +43,18 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
     }
 
 }
+
+export const getAllUsers = async (req: Request, res:Response, next: NextFunction) =>{
+
+   try{
+    const users = await User.find();
+    if (users.length === 0 ){
+        res.json({'message': 'No users yet.'})
+    }
+
+    return res.status(200).json(users);
+   }catch{
+        return res.status(500).json({error: 'Internal server error'})
+   }
+
+}

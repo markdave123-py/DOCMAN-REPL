@@ -21,4 +21,5 @@ export const sendMail = (userEmail: string, adminEmail: string) =>{
     .send(message)
     .then((response) =>console.log('email sent', response))
     .catch((err) => console.log(err.message));
+    
 }
