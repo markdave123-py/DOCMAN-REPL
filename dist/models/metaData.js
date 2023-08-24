@@ -1,25 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.metaDataSchema = void 0;
+exports.metaDataModel = exports.metaDataSchema = void 0;
 var mongoose_1 = require("mongoose");
 exports.metaDataSchema = new mongoose_1.Schema({
-    name: {
-        type: String,
-        required: true
-    },
     writerAccess: [
         { type: String,
-            required: true
         }
     ],
     readAccess: [
         { type: String,
-            required: true
         }
     ],
     deleteAccess: [
         { type: String,
-            required: true
         }
     ],
     createdAt: {
@@ -34,3 +27,4 @@ exports.metaDataSchema = new mongoose_1.Schema({
     timestamps: true, // Automatically manage createdAt and updatedAt fields
 });
 var metaDataModel = (0, mongoose_1.model)('MetaData', exports.metaDataSchema);
+exports.metaDataModel = metaDataModel;

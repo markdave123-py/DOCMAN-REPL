@@ -1,5 +1,6 @@
-import { config } from "src/config/env";
+import { config } from "../config/env";
 
 export const isSuperAdmin = (email: string) =>{
-    return email === config.super_admin.email
+    console.log(config.super_admin)
+    return email === config.super_admin.email!
 }

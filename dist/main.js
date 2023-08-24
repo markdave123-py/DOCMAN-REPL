@@ -46,6 +46,7 @@ var env_1 = require("./config/env");
 var addSuperAdmin_1 = require("./utils/addSuperAdmin");
 var userRoute_1 = require("./routes/userRoute");
 var verifyToken_1 = require("./middlewares/verifyToken");
+var uploadRoute_1 = require("./routes/uploadRoute");
 var app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
@@ -54,9 +55,10 @@ app.get('/', function (req, res) {
 });
 app.use('/', userRoute_1.router);
 app.use(verifyToken_1.verifyJwt);
-app.get('/testing', function (req, res) {
-    res.status(200).json({ 'message': 'done' });
-});
+app.use('/upload', uploadRoute_1.uploadRouter);
+// app.get('/testing', (req: Request, res: Response) => {
+//   res.status(200).json({'message': 'done'});
+// })
 (0, database_1.connectToDatabase)()
     .then(function () {
     // Start the server after successful database connection

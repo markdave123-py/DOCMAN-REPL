@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../models/user';
-import { config } from 'src/config/env';
-import { HttpStatusCodes } from 'src/commonErrors/httpCode';
-import { userEmail } from 'src/middlewares/verifyToken';
-import { inviteAdminModel } from 'src/models/inviteAdmin';
-import { isSuperAdmin } from 'src/utils/isSuperAdmin';
-import { sendMail } from 'src/utils/mailSender';
-import { Admin } from 'src/models/admin';
-import { hashPassword } from 'src/utils/hash';
+import { config } from '../config/env';
+import { HttpStatusCodes } from '../commonErrors/httpCode';
+import { userEmail } from '../middlewares/verifyToken';
+import { inviteAdminModel } from '../models/inviteAdmin';
+import { isSuperAdmin } from '../utils/isSuperAdmin';
+import { sendMail } from '../utils/mailSender';
+import { Admin } from '../models/admin';
+import { hashPassword } from '../utils/hash';
 
 
 

@@ -2,7 +2,7 @@ import  {Schema, Document, model} from 'mongoose';
 
 
 export interface ImetaDataSchema extends Document {
-  name: string;
+
   writerAccess: string[]; 
   readAccess: string[];
   deleteAccess: string[];
@@ -13,24 +13,21 @@ export interface ImetaDataSchema extends Document {
 
 export const metaDataSchema = new Schema<ImetaDataSchema>(
   {
-    name: { 
-        type: String, 
-        required: true 
-    },
+    
     writerAccess: 
         [
             { type: String, 
-              required: true 
+              
             }
         ],
     readAccess:[
             { type: String, 
-              required: true 
+              
             }
         ],
       deleteAccess: [
             { type: String, 
-              required: true 
+              
             }
         ],
     createdAt: { 
@@ -48,4 +45,6 @@ export const metaDataSchema = new Schema<ImetaDataSchema>(
 );
 
 const metaDataModel = model<ImetaDataSchema>('MetaData', metaDataSchema);
+
+export { metaDataModel }
 

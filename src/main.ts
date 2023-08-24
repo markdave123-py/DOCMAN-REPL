@@ -5,6 +5,7 @@ import { config } from './config/env';
 import { addAdminToDb } from './utils/addSuperAdmin';
 import { router } from './routes/userRoute';
 import { verifyJwt } from './middlewares/verifyToken';
+import { uploadRouter } from './routes/uploadRoute';
 
 const app = express();
 
@@ -22,9 +23,11 @@ app.use('/', router);
 
 app.use(verifyJwt);
 
-app.get('/testing', (req: Request, res: Response) => {
-  res.status(200).json({'message': 'done'});
-})
+app.use('/upload', uploadRouter);
+
+// app.get('/testing', (req: Request, res: Response) => {
+//   res.status(200).json({'message': 'done'});
+// })
 
 
 connectToDatabase()

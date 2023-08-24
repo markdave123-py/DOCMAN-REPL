@@ -17,9 +17,12 @@ export const config = Object.freeze(
         email: process.env.SUPER_ADMIN_EMAIL,
         password: process.env.SUPER_ADMIN_PASSWORD,
         phoneNumber: process.env.SUPER_ADMIN_PHONENUMBER
-    }
+    },
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string ,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string
 
-
+    
     
 }
 )

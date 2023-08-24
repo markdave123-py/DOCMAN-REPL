@@ -4,7 +4,7 @@ import { ImetaDataSchema, metaDataSchema } from './metaData';
 
 export interface IdocSchema extends Document {
   name: string;
-  id: string;
+  cloudinaryId: string;
   path: string;
   createdAt: Date;
   updatedAt: Date;
@@ -18,7 +18,7 @@ const docSchema = new Schema<IdocSchema>({
     type: String, 
     required: true 
 },
-  id: { 
+  cloudinaryId: { 
     type: String, 
     required: true 
 },
@@ -41,6 +41,6 @@ const docSchema = new Schema<IdocSchema>({
 
 
 
-const docModel = model<IdocSchema>('Doc', docSchema);
+const DocModel = model<IdocSchema>('Doc', docSchema);
 
-export { docModel }
+export { DocModel }

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createNewUser = void 0;
+exports.getAllUsers = exports.createNewUser = void 0;
 var user_1 = require("../models/user");
 var hash_1 = require("../utils/hash");
 var createNewUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
@@ -79,3 +79,24 @@ var createNewUser = function (req, res, next) { return __awaiter(void 0, void 0,
     });
 }); };
 exports.createNewUser = createNewUser;
+var getAllUsers = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var users, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, user_1.User.find()];
+            case 1:
+                users = _b.sent();
+                if (users.length === 0) {
+                    res.json({ 'message': 'No users yet.' });
+                }
+                return [2 /*return*/, res.status(200).json(users)];
+            case 2:
+                _a = _b.sent();
+                return [2 /*return*/, res.status(500).json({ error: 'Internal server error' })];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getAllUsers = getAllUsers;

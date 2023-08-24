@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.docModel = void 0;
+exports.DocModel = void 0;
 var mongoose_1 = require("mongoose");
 var metaData_1 = require("./metaData");
 var docSchema = new mongoose_1.Schema({
@@ -8,7 +8,7 @@ var docSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
-    id: {
+    cloudinaryId: {
         type: String,
         required: true
     },
@@ -26,5 +26,5 @@ var docSchema = new mongoose_1.Schema({
     },
     metaData: metaData_1.metaDataSchema, // Embed MetaData schema
 });
-var docModel = (0, mongoose_1.model)('Doc', docSchema);
-exports.docModel = docModel;
+var DocModel = (0, mongoose_1.model)('Doc', docSchema);
+exports.DocModel = DocModel;
