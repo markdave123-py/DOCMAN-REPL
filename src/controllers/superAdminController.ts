@@ -30,9 +30,9 @@ export const makeUserAdmin = async (req: Request, res: Response, next: NextFunct
         sendMail(email, config.super_admin.email!)
         //the logic to change the invitationStatus to accepted || rejected
         const newInvite = new inviteAdminModel({
-        userId: user.id,
-        adminId: admin?.id
-    })
+            userId: user.id,
+            adminId: admin?.id
+        })
         
         const validationError = newInvite.validateSync();
 

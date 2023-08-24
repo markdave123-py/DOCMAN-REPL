@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DocModel = void 0;
-var mongoose_1 = require("mongoose");
-var metaData_1 = require("./metaData");
-var docSchema = new mongoose_1.Schema({
+const mongoose_1 = require("mongoose");
+const metaData_1 = require("./metaData");
+const docSchema = new mongoose_1.Schema({
     name: {
         type: String,
         required: true
@@ -24,7 +24,8 @@ var docSchema = new mongoose_1.Schema({
         type: Date,
         default: Date.now
     },
-    metaData: metaData_1.metaDataSchema, // Embed MetaData schema
+    metaData: metaData_1.metaDataSchema,
 });
-var DocModel = (0, mongoose_1.model)('Doc', docSchema);
+const DocModel = (0, mongoose_1.model)('Doc', docSchema);
 exports.DocModel = DocModel;
+//# sourceMappingURL=doc.js.map

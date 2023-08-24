@@ -1,14 +1,8 @@
 import mongoose, { Schema, Document }from "mongoose";
 
+import { IADMIN } from "./admin.interface";
 
-interface IADMIN extends Document {
-    firstName: string;
-    lastName: string;
-    email:  string;   
-    phoneNumber: string;
-    password: string
 
-}
 
 
 export const adminSchema = new Schema<IADMIN>({

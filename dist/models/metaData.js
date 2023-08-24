@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.metaDataModel = exports.metaDataSchema = void 0;
-var mongoose_1 = require("mongoose");
+const mongoose_1 = require("mongoose");
 exports.metaDataSchema = new mongoose_1.Schema({
     writerAccess: [
         { type: String,
@@ -24,7 +24,8 @@ exports.metaDataSchema = new mongoose_1.Schema({
         default: Date.now
     },
 }, {
-    timestamps: true, // Automatically manage createdAt and updatedAt fields
+    timestamps: true,
 });
-var metaDataModel = (0, mongoose_1.model)('MetaData', exports.metaDataSchema);
+const metaDataModel = (0, mongoose_1.model)('MetaData', exports.metaDataSchema);
 exports.metaDataModel = metaDataModel;
+//# sourceMappingURL=metaData.js.map
