@@ -26,6 +26,5 @@ const docSchema = new mongoose_1.Schema({
     },
     metaData: metaData_1.metaDataSchema,
 });
-const DocModel = (0, mongoose_1.model)('Doc', docSchema);
-exports.DocModel = DocModel;
+exports.DocModel = (0, mongoose_1.model)('Doc', docSchema);
 //# sourceMappingURL=doc.js.map

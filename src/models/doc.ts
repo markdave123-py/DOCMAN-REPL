@@ -1,22 +1,24 @@
 import {Schema, Document, model} from 'mongoose';
 import { ImetaDataSchema, metaDataSchema } from './metaData';
+import { IdocSchema } from './doc.interface';
 
 
-export interface IdocSchema extends Document {
-  name: string;
-  cloudinaryId: string;
-  path: string;
-  createdAt: Date;
-  updatedAt: Date;
-  metaData:  ImetaDataSchema; // Reference to the MetaData schema
-}
+// export interface IdocSchema extends Document {
+//   name: string;
+//   cloudinaryId: string;
+//   path: string;
+//   createdAt: Date;
+//   updatedAt: Date;
+//   metaData:  ImetaDataSchema; // Reference to the MetaData schema
+// }
 
 
 
 const docSchema = new Schema<IdocSchema>({
   name: { 
     type: String, 
-    required: true 
+    required: true ,
+    unique: true
 },
   cloudinaryId: { 
     type: String, 
@@ -41,6 +43,6 @@ const docSchema = new Schema<IdocSchema>({
 
 
 
-const DocModel = model<IdocSchema>('Doc', docSchema);
+export const DocModel = model<IdocSchema>('Doc', docSchema);
 
-export { DocModel }
+// export { DocModel }

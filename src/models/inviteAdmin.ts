@@ -37,6 +37,6 @@ const inviteSchema = new Schema({
 
 
 
-const inviteAdminModel = model('Doc', inviteSchema);
+const inviteAdminModel = model('Invite', inviteSchema);
 
 export { inviteAdminModel }

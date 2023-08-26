@@ -13,9 +13,11 @@ import { hashPassword } from '../utils/hash';
 
 export const makeUserAdmin = async (req: Request, res: Response, next: NextFunction) =>{
 
-    const { email } = req.body;
+    const { email } = req.body;5
 
-    if(!isSuperAdmin(userEmail)){
+    console.log(userEmail, config.super_admin.email)
+
+    if(isSuperAdmin(userEmail)){
         return res.status(403).json({"error": "Only a Super Admin can perform this action" });
     }
 
@@ -72,5 +74,17 @@ export const makeUserAdmin = async (req: Request, res: Response, next: NextFunct
         return res.status(HttpStatusCodes.SERVER_ERROR).json({error: 'Internal Server error'})
   
     }
+
+}
+
+export const getAllAdmins = async (req: Request, res: Response, next: NextFunction) =>{
+    
+    try{
+    const users = await Admin.find();
+
+    return res.status(200).json(users);
+   }catch{
+        return res.status(500).json({error: 'Internal server error'})
+   }
 
 }

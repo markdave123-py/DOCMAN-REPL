@@ -1,8 +1,8 @@
 import { NextFunction, Response, Request } from "express";
-import { HttpStatusCodes } from "src/commonErrors/httpCode";
-import { config } from "src/config/env";
-import { User } from "src/models/user";
-import { sendMail } from "src/utils/mailSender";
+import { HttpStatusCodes } from "../commonErrors/httpCode";
+import { config } from "../config/env";
+import { User } from "../models/user";
+import { sendMail } from "../utils/mailSender";
 
 
 
@@ -10,7 +10,7 @@ export const inviteAdmin = async (req: Request, res: Response, next: NextFunctio
     const { email } = req.body;
     const superAdminEmail = config.super_admin.email as string;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email });
     if(!user)
         throw new Error("User not found in the system");
 
