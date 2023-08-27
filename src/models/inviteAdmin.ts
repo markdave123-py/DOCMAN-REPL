@@ -3,8 +3,8 @@ import {Schema, Document, model} from 'mongoose';
 
 
 const inviteSchema = new Schema({
-  userId: { 
-    type: Schema.Types.ObjectId, 
+  userEmail: { 
+    type: String, 
     ref: 'User',
     required: true,
 

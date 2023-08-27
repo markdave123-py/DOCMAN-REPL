@@ -7,6 +7,8 @@ import { router } from './routes/userRoute';
 import { verifyJwt } from './middlewares/verifyToken';
 import { uploadRouter } from './routes/uploadRoute';
 import { adminRouter } from './routes/admin.route';
+import { docRoute } from './routes/docRoute';
+import { inviteRoute } from './routes/acceptInvite.route';
 
 
 const app = express();
@@ -25,9 +27,11 @@ app.use('/', router);
 
 app.use(verifyJwt);
 
-app.use('/',adminRouter)
+app.use('/',adminRouter);
 
-app.use('/upload', uploadRouter);
+app.use('/', docRoute);
+
+app.use('/', inviteRoute)
 
 // app.get('/testing', (req: Request, res: Response) => {
 //   res.status(200).json({'message': 'done'});

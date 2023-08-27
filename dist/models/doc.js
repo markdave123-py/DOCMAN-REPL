@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DocModel = void 0;
+exports.DocModel = exports.docSchema = void 0;
 const mongoose_1 = require("mongoose");
 const metaData_1 = require("./metaData");
-const docSchema = new mongoose_1.Schema({
+exports.docSchema = new mongoose_1.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     cloudinaryId: {
         type: String,
@@ -24,7 +25,10 @@ const docSchema = new mongoose_1.Schema({
         type: Date,
         default: Date.now
     },
-    metaData: metaData_1.metaDataSchema,
+    metaData: {
+        type: metaData_1.metaDataSchema,
+        required: true
+    },
 });
-exports.DocModel = (0, mongoose_1.model)('Doc', docSchema);
+exports.DocModel = (0, mongoose_1.model)('Doc', exports.docSchema);
 //# sourceMappingURL=doc.js.map

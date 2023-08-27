@@ -14,7 +14,7 @@ import { IdocSchema } from './doc.interface';
 
 
 
-const docSchema = new Schema<IdocSchema>({
+export const docSchema = new Schema<IdocSchema>({
   name: { 
     type: String, 
     required: true ,
@@ -35,7 +35,11 @@ const docSchema = new Schema<IdocSchema>({
     type: Date, 
     default: Date.now 
 },
-  metaData: metaDataSchema, // Embed MetaData schema
+  metaData: {
+    type: metaDataSchema,
+    required: true
+  },
+  // Embed MetaData schema
 });
 
 

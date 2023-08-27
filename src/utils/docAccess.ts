@@ -1,9 +1,18 @@
-import { IdocSchema } from "../models/doc.interface";
 
-export const hasDocAccess = ( Doc: IdocSchema, email: string ) =>{
+export const hasDocAccess = ( Doc: any, email: string ): boolean =>{
 
-    const docAccess =  Doc.metaData.readAccess.find((accessEmail) => accessEmail === email )
+    if (Doc.metaData && Doc.metaData.readAccess){
+        return Doc.metaData.readAccess.includes(email)
+    }
 
-    return docAccess
+    return false 
 
 }
+
+
+// const accessibleDocs = docs.filter((doc) => {
+//   if (doc.metaData && doc.metaData.readAccess) {
+//     return doc.metaData.readAccess.includes(emailToCheck);
+//   }
+//   return false;
+// });
