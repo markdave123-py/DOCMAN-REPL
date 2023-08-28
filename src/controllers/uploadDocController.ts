@@ -37,16 +37,7 @@ export const uploadDocument = async (req: Request, res:Response) => {
             return res.status(400).json({ error: 'No file uploaded.' });
         }
 
-        // file.
-
-        // const tempFilePath = 'tempfile'; // Replace with a suitable temporary file path
-        // fs.writeFileSync(tempFilePath, file.buffer);
-
-        // Upload file to Cloudinary
-        // const cloudinaryResponse = await cloudinary.v2.uploader.upload(file.path, {
-        //     resource_type: 'auto',
-
-        // });
+        
 
         const cloudinaryResponse: any = await streamUploadFile(file.buffer);
 

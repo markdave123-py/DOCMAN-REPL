@@ -11,6 +11,6 @@ const upload = configUpload();
 
 export const docRoute = Router();
 
-docRoute.post('/getAllDocs', controllerHandler(getDocumments));
-docRoute.post('/getOneDocs', controllerHandler(getOneDocument));
-docRoute.post('/upload', upload.single('file'), controllerHandler(uploadDocument)); 
+docRoute.get('/getAllDocs', controllerHandler(getDocumments));
+docRoute.get('/getOneDoc', controllerHandler(getOneDocument));
+// docRoute.post('/upload', upload.single('file'), controllerHandler(uploadDocument)); 

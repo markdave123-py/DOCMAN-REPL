@@ -9,8 +9,9 @@ const env_1 = require("./config/env");
 const addSuperAdmin_1 = require("./utils/addSuperAdmin");
 const userRoute_1 = require("./routes/userRoute");
 const verifyToken_1 = require("./middlewares/verifyToken");
-const uploadRoute_1 = require("./routes/uploadRoute");
 const admin_route_1 = require("./routes/admin.route");
+const docRoute_1 = require("./routes/docRoute");
+const acceptInvite_route_1 = require("./routes/acceptInvite.route");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
@@ -20,7 +21,8 @@ app.get('/', (req, res) => {
 app.use('/', userRoute_1.router);
 app.use(verifyToken_1.verifyJwt);
 app.use('/', admin_route_1.adminRouter);
-app.use('/upload', uploadRoute_1.uploadRouter);
+app.use('/', docRoute_1.docRoute);
+app.use('/', acceptInvite_route_1.inviteRoute);
 (0, database_1.connectToDatabase)()
     .then(() => {
     console.log(`sucessfully connected to the database ${env_1.config.mongoUrl}`);

@@ -8,5 +8,5 @@ import { controllerHandler } from "../middlewares/controllerHandlers";
 
 export const adminRouter = Router();
 
-adminRouter.post('/getAdmins', controllerHandler(getAllAdmins));
+adminRouter.get('/getAdmins', controllerHandler(getAllAdmins));
 adminRouter.post('/inviteAdmin', controllerHandler(makeUserAdmin));
