@@ -19,10 +19,10 @@ app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
 app.use('/', userRoute_1.router);
+app.use('/', acceptInvite_route_1.inviteRoute);
 app.use(verifyToken_1.verifyJwt);
 app.use('/', admin_route_1.adminRouter);
 app.use('/', docRoute_1.docRoute);
-app.use('/', acceptInvite_route_1.inviteRoute);
 (0, database_1.connectToDatabase)()
     .then(() => {
     console.log(`sucessfully connected to the database ${env_1.config.mongoUrl}`);

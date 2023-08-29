@@ -5,13 +5,11 @@ import {Schema, Document, model} from 'mongoose';
 const inviteSchema = new Schema({
   userEmail: { 
     type: String, 
-    ref: 'User',
     required: true,
 
 },
-  adminId: { 
-    type: Schema.Types.ObjectId, 
-    ref: 'Admin',
+  adminEmail: { 
+    type: String, 
     required: true,
 
   },
@@ -23,7 +21,6 @@ const inviteSchema = new Schema({
     type: String,
     enum: ['accepted', 'rejected', 'pending'],
     default: 'pending',
-    required: true
 },
 
   rejectedAt: { 

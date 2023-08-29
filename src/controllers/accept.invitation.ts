@@ -1,13 +1,17 @@
 import { NextFunction, Response, Request } from "express";
 import { inviteAdminModel } from "../models/inviteAdmin";
 import { HttpStatusCodes } from "../commonErrors/httpCode";
+import { User } from "../models/user";
+import { Admin } from "../models/admin";
 
 
 export const acceptInvitation = async (req: Request, res: Response, next: NextFunction) => {
 
-    const { accepted, email } = req.body;
+    try{
+        const { email } = req.body;
 
-    const invite = inviteAdminModel.findOne({userEmail: email})
+    const invite = await inviteAdminModel.findOne({userEmail: email})
+    const user = await User.findOne({email: email})
 
     if(!invite){
         return res.status(HttpStatusCodes.CONFLICT).json({
@@ -15,18 +19,32 @@ export const acceptInvitation = async (req: Request, res: Response, next: NextFu
         })
     
     }
-    const updatedInvite  = await invite.updateOne({invitationStatus: accepted});
+    const updatedInvite  = await invite.updateOne({invitationStatus: "accepted"})
+
+    const newAdmin = await Admin.create({
+                firstName: user?.firstName,
+                lastName: user?.lastName,
+                email: user?.email,
+                phoneNumber: user?.phoneNumber,
+                password: user?.password
+        });
+
 
     return res.status(HttpStatusCodes.OK).json({
-        updatedInvite: updatedInvite
+        newAdmin: newAdmin
     })
+    }catch(err){
+        
+        res.status(500).json("Internal server error!!!")
+
+    }
 
 
 }
 
 export const rejectInvitation = async (req: Request, res: Response, next: NextFunction) => {
 
-    const { email, rejected } = req.body;
+    const { email} = req.body;
 
     //change staus to rejected
 
@@ -39,7 +57,7 @@ export const rejectInvitation = async (req: Request, res: Response, next: NextFu
     
     }
 
-    const updatedInvite  = await invite.updateOne({invitationStatus: rejected});
+    const updatedInvite  = await invite.updateOne({invitationStatus: "rejected"});
 
     return res.status(HttpStatusCodes.OK).json({
         updatedInvite: updatedInvite

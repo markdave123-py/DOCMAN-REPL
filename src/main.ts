@@ -24,6 +24,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/', router);
 
+app.use('/', inviteRoute)
 
 app.use(verifyJwt);
 
@@ -31,7 +32,7 @@ app.use('/',adminRouter);
 
 app.use('/', docRoute);
 
-app.use('/', inviteRoute)
+
 
 // app.get('/testing', (req: Request, res: Response) => {
 //   res.status(200).json({'message': 'done'});

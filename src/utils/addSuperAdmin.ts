@@ -22,13 +22,13 @@ export const addAdminToDb = async () => {
             password: hashedPassword
         });
 
-        // const newuser = await User.create({
-        //     firstName: config.super_admin.firstName,
-        //     lastName: config.super_admin.lastName,
-        //     phoneNumber: config.super_admin.phoneNumber,
-        //     email: config.super_admin.email,
-        //     password: hashedPassword
-        // });
+        const newuser = await User.create({
+            firstName: config.super_admin.firstName,
+            lastName: config.super_admin.lastName,
+            phoneNumber: config.super_admin.phoneNumber,
+            email: config.super_admin.email,
+            password: hashedPassword
+        });
 
         return newAdmin
 

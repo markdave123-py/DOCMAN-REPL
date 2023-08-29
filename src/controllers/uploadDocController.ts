@@ -17,8 +17,6 @@ export const uploadDocument = async (req: Request, res:Response) => {
 
         const admin = await Admin.findOne({email: userEmail})
 
-        console.log(admin, isSuperAdmin(userEmail), userEmail)
-
         // if ( !isSuperAdmin(userEmail) || !admin){
         //     return res.status(HttpStatusCodes.FORBIDDEN).json({"error": "Only Admins can perform this action"});
         // }
@@ -30,8 +28,6 @@ export const uploadDocument = async (req: Request, res:Response) => {
 
 
         const file = req.file;
-
-        console.log(req.file)
 
         if (!file) {
             return res.status(400).json({ error: 'No file uploaded.' });

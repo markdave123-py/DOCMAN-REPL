@@ -6,6 +6,7 @@ import { sendMail } from "../utils/mailSender";
 
 
 
+
 export const inviteAdmin = async (req: Request, res: Response, next: NextFunction) => {
     const { email } = req.body;
     const superAdminEmail = config.super_admin.email as string;

@@ -15,9 +15,7 @@ export const makeUserAdmin = async (req: Request, res: Response, next: NextFunct
 
     const { email } = req.body;5
 
-    console.log(userEmail, config.super_admin.email)
-
-    if(isSuperAdmin(userEmail)){
+    if(!isSuperAdmin(userEmail)){
         return res.status(403).json({"error": "Only a Super Admin can perform this action" });
     }
 
@@ -32,8 +30,8 @@ export const makeUserAdmin = async (req: Request, res: Response, next: NextFunct
         sendMail(email, config.super_admin.email!)
         //the logic to change the invitationStatus to accepted || rejected
         const newInvite = new inviteAdminModel({
-            userId: user.id,
-            adminId: admin?.id
+            userEmail: user.email,
+            adminEmail: admin?.email
         })
         
         const validationError = newInvite.validateSync();
@@ -44,29 +42,12 @@ export const makeUserAdmin = async (req: Request, res: Response, next: NextFunct
 
         const savedInvite = await newInvite.save();
 
-        const adminPassword = await hashPassword(user.password)
-        let savedAdmin;
-
-        if (newInvite.invitationStatus === 'accepted'){
-            const newAdmin = new Admin ({
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                phoneNumber: user.phoneNumber,
-                password: adminPassword
-
-            })
-
-            savedAdmin = await newAdmin.save();
-
-        }else{
-            //logic for rejected mails goes  , we can mail the mail just accept or nothing no reject tho
-        }
+        
 
 
         return res.status(HttpStatusCodes.CREATED).json({
-            admin: savedAdmin,
-            invite: newInvite
+            // admin: savedAdmin,
+            invite: savedInvite
         })
           
     }catch (err) {

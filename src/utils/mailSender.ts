@@ -17,7 +17,7 @@ export const sendMail = (userEmail: string, adminEmail: string) =>{
 
     sgmail
     .send(message)
-    .then((response) =>console.log('email sent', response))
+    .then((response) =>console.log('email sent'))
     .catch((err) => console.log(err.response.body));
     
 }
