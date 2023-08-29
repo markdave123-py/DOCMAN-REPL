@@ -52,7 +52,13 @@ export const getAllUsers = async (req: Request, res:Response, next: NextFunction
         res.json({'message': 'No users yet.'})
     }
 
-    return res.status(200).json(users);
+    const formattedUsers = users.map((user:any) => {
+        delete user.password
+        return user
+    })
+
+
+    return res.status(200).json(formattedUsers);
    }catch{
         return res.status(500).json({error: 'Internal server error'})
    }

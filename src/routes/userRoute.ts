@@ -9,6 +9,6 @@ import { getAllUsers } from "../controllers/userController";
 
 export const router = Router();
 
-router.post('/auth/users', controllerHandler(createNewUser, createNewUserSchema));
+router.post('/users', controllerHandler(createNewUser, createNewUserSchema));
 router.post('/auth/users/login', controllerHandler(handleLogin, userLoginSchema));
-router.get('/auth/users', controllerHandler(getAllUsers));
+router.get('/users', controllerHandler(getAllUsers));
