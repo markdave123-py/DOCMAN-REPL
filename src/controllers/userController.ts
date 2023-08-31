@@ -34,7 +34,14 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
         }
 
         const savedUser = await newUser.save();
-        return  res.status(201).json(savedUser);
+
+        return  res.status(201).json({
+            firstName: savedUser.firstName,
+            lastName: savedUser.lastName,
+            email: savedUser.email,
+            id: savedUser.id,
+            phoneNumber: savedUser.phoneNumber
+        });
 
     } catch (error) {
         console.error('Error saving this user', error)
@@ -47,18 +54,16 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
 export const getAllUsers = async (req: Request, res:Response, next: NextFunction) =>{
 
    try{
-    const users = await User.find();
+    const users = await User.find().select('-password');
     if (users.length === 0 ){
         res.json({'message': 'No users yet.'})
     }
 
-    const formattedUsers = users.map((user:any) => {
-        delete user.password
-        return user
-    })
 
-
-    return res.status(200).json(formattedUsers);
+    return res.status(200).json({
+        users: users
+    }
+    );
    }catch{
         return res.status(500).json({error: 'Internal server error'})
    }

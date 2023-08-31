@@ -7,7 +7,6 @@ export const sendMail = (userEmail: string, adminEmail: string) =>{
     const ApiKey = config.DOCMAN_API_KEY;
     sgmail.setApiKey(ApiKey)
 
-    console.log(userEmail,adminEmail)
     const message = {
         to: userEmail,
         from: adminEmail,

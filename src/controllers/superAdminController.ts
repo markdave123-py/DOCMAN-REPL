@@ -61,7 +61,7 @@ export const makeUserAdmin = async (req: Request, res: Response, next: NextFunct
 export const getAllAdmins = async (req: Request, res: Response, next: NextFunction) =>{
     
     try{
-    const users = await Admin.find();
+    const users = await Admin.find().select("-password");
 
     return res.status(200).json(users);
    }catch{
