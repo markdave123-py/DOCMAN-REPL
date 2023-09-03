@@ -9,4 +9,4 @@ export const uploadRouter = Router();
 
 
 
-uploadRouter.post('/', upload.single('file'), controllerHandler(uploadDocument)); 
+// uploadRouter.post('/', upload.single('file'), controllerHandler(uploadDocument)); 

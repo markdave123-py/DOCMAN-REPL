@@ -3,7 +3,7 @@ import { Admin } from "../models/admin";
 import { DocModel } from "../models/doc";
 import { userEmail } from "../middlewares/verifyToken";
 import { HttpStatusCodes } from "../commonErrors/httpCode";
-import { hasDocAccess } from "../utils/docAccess";
+import { hasDocReadAccess } from "../utils/docAccess";
  
 
 
@@ -18,13 +18,13 @@ export const getDocumments = async (req: Request, res:Response, next: NextFuncti
         if (!admin && !documents){
             return res.status(403).json({"message":"you cant perform this operation!!"})
         }
-        else if(admin && !documents){
+        // else if(admin && !documents){
             
-            return res.status(HttpStatusCodes.CREATED).json({
-                 Docuements: allDocs
-            })
+        //     return res.status(HttpStatusCodes.CREATED).json({
+        //          Docuements: allDocs
+        //     })
             
-        }
+        // }
         else if (!admin && documents){
             return res.status(HttpStatusCodes.CREATED).json({
                 Documents: documents
@@ -53,7 +53,7 @@ export const getOneDocument = async (req: Request, res:Response, next: NextFunct
         const admin = await Admin.findOne({email: userEmail});
         const doc = await DocModel.findOne({name: name})
 
-        if(!admin && !hasDocAccess(doc,  userEmail)){
+        if(!admin && !hasDocReadAccess(doc,  userEmail)){
             return res.status(HttpStatusCodes.FORBIDDEN).json({error: "you cant perform this action!!"})
         }
 

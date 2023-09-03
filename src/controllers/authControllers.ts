@@ -2,7 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import { User } from '../models/user';
 import { NOT_FOUND } from '../commonErrors/Errors/Errors';
 import { genToken } from '../utils/genToken';
+import { DocModel } from '../models/doc';
 import bcrypt from 'bcrypt';
+import { userEmail } from '../middlewares/verifyToken';
 
 
 
@@ -21,11 +23,23 @@ export const handleLogin = async (req:Request, res:Response, next: NextFunction)
     const isPassowrdMatch = await bcrypt.compare(password, user.password);
 
     if( isPassowrdMatch) {
-        const accessToken = genToken(user.email)
+        const accessToken = genToken(user.email);
+
+        const docs = await DocModel.find({
+            $or:[
+                { 'metaData.readAccess': {$in: [userEmail]}},
+                { 'metaData.writeAccess': {$in: [userEmail]}}
+            ]
+        })
         
-        res.json({"accessToken": accessToken});
+        res.json({
+            "accessToken": accessToken,
+            "documents": docs
+        });
     }else{
         res.sendStatus(401).json({message: "invalid credentials"});
     }
+
+    //return all docs he has access to.
 }
 

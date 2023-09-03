@@ -3,7 +3,7 @@ import  {Schema, Document, model} from 'mongoose';
 
 export interface ImetaDataSchema extends Document {
 
-  writerAccess: string[]; 
+  writeAccess: string[]; 
   readAccess: string[];
   deleteAccess: string[];
   createdAt: Date;
@@ -14,7 +14,7 @@ export interface ImetaDataSchema extends Document {
 export const metaDataSchema = new Schema<ImetaDataSchema>(
   {
     
-    writerAccess: 
+    writeAccess: 
         [
             { type: String, 
               

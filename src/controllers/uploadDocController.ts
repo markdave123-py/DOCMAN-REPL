@@ -17,9 +17,9 @@ export const uploadDocument = async (req: Request, res:Response) => {
 
         const admin = await Admin.findOne({email: userEmail})
 
-        // if ( !isSuperAdmin(userEmail) || !admin){
-        //     return res.status(HttpStatusCodes.FORBIDDEN).json({"error": "Only Admins can perform this action"});
-        // }
+        if ( !isSuperAdmin(userEmail) && !admin){
+            return res.status(HttpStatusCodes.FORBIDDEN).json({"error": "Only Admins can perform this action"});
+        }
 
         const {name, readAccess, writeAccess, deleteAccess } = req.body;
         const readAccessArray: string[] = Array.isArray(readAccess) ? readAccess : [];

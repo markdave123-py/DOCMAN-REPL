@@ -31,10 +31,15 @@ export const acceptInvitation = async (req: Request, res: Response, next: NextFu
 
 
     return res.status(HttpStatusCodes.OK).json({
-        newAdmin: newAdmin
+        newAdmin: {
+                firstName: user?.firstName,
+                lastName: user?.lastName,
+                email: user?.email,
+                phoneNumber: user?.phoneNumber
+        }
     })
     }catch(err){
-        
+        console.log(err, err.message)
         res.status(500).json("Internal server error!!!")
 
     }
@@ -59,9 +64,7 @@ export const rejectInvitation = async (req: Request, res: Response, next: NextFu
 
     const updatedInvite  = await invite.updateOne({invitationStatus: "rejected"});
 
-    return res.status(HttpStatusCodes.OK).json({
-        updatedInvite: updatedInvite
-    })
+    return res.status(HttpStatusCodes.OK).json({message: `Invite is rejected by ${email}`})
 
     
 }

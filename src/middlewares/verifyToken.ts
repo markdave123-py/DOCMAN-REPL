@@ -22,8 +22,6 @@ export const verifyJwt =  (req: Request, res: Response, next: NextFunction) => {
                 res.json({'message': 'Could not verify token try again later!!!'})
                 throw new ForbiddenError("Could not verify token try again later!!!")};
             userEmail = decoded.username;
-            console.log(decoded);
-            console.log(userEmail)
             next();
             
             
