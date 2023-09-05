@@ -5,14 +5,17 @@ import { config } from './config/env';
 import { addAdminToDb } from './utils/addSuperAdmin';
 import { router } from './routes/userRoute';
 import { verifyJwt } from './middlewares/verifyToken';
-import { uploadRouter } from './routes/uploadRoute';
 import { adminRouter } from './routes/admin.route';
 import { docRoute } from './routes/docRoute';
 import { inviteRoute } from './routes/acceptInvite.route';
+import cors from 'cors'
+
 
 
 const app = express();
 
+
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false}));
 
