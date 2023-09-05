@@ -41,7 +41,7 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
 
     } catch (error) {
         console.error('Error saving this user', error)
-        return res.status(500).json({error: "something went wrong"});
+        return res.status(500).json({error: `something went wrong ${error}`});
         
     }
 
