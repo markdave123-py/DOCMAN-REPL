@@ -27,11 +27,7 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
             password: hashedPassword
         });
     
-        const validationError = newUser.validateSync();
-
-        if (validationError){
-            return res.status(404).json({error: 'missing required fields'});
-        }
+        
 
         const savedUser = await newUser.save();
 

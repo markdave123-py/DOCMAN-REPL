@@ -4,7 +4,7 @@ import { NOT_FOUND } from '../commonErrors/Errors/Errors';
 import { genToken } from '../utils/genToken';
 import { DocModel } from '../models/doc';
 import bcrypt from 'bcrypt';
-import { userEmail } from '../middlewares/verifyToken';
+
 
 
 
@@ -27,10 +27,11 @@ export const handleLogin = async (req:Request, res:Response, next: NextFunction)
 
         const docs = await DocModel.find({
             $or:[
-                { 'metaData.readAccess': {$in: [userEmail]}},
-                { 'metaData.writeAccess': {$in: [userEmail]}}
+                { 'metaData.readAccess': {$in: [user.email]}},
+                { 'metaData.writeAccess': {$in: [user.email]}}
             ]
         })
+
         
         res.json({
             "accessToken": accessToken,

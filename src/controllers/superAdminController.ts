@@ -7,13 +7,15 @@ import { inviteAdminModel } from '../models/inviteAdmin';
 import { isSuperAdmin } from '../utils/isSuperAdmin';
 import { sendMail } from '../utils/mailSender';
 import { Admin } from '../models/admin';
-import { hashPassword } from '../utils/hash';
+
 
 
 
 export const makeUserAdmin = async (req: Request, res: Response, next: NextFunction) =>{
 
-    const { email } = req.body;5
+    const { email } = req.body;
+
+    console.log(userEmail)
 
     if(!isSuperAdmin(userEmail)){
         return res.status(403).json({"error": "Only a Super Admin can perform this action" });
