@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import { ImetaDataSchema} from './metaData';
+import { ImetaDataSchema } from './metadata.interface';
 
 
 export interface IdocSchema extends Document {

@@ -1,14 +1,8 @@
 import  {Schema, Document, model} from 'mongoose';
+import { ImetaDataSchema } from '../interface/metadata.interface';
 
 
-export interface ImetaDataSchema extends Document {
 
-  writeAccess: string[]; 
-  readAccess: string[];
-  deleteAccess: string[];
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 
 export const metaDataSchema = new Schema<ImetaDataSchema>(

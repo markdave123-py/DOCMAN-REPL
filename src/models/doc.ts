@@ -1,16 +1,8 @@
 import {Schema, Document, model} from 'mongoose';
-import { ImetaDataSchema, metaDataSchema } from './metaData';
-import { IdocSchema } from './doc.interface';
+import { metaDataSchema } from './metaData';
+import { IdocSchema } from '../interface/doc.interface';
 
 
-// export interface IdocSchema extends Document {
-//   name: string;
-//   cloudinaryId: string;
-//   path: string;
-//   createdAt: Date;
-//   updatedAt: Date;
-//   metaData:  ImetaDataSchema; // Reference to the MetaData schema
-// }
 
 
 

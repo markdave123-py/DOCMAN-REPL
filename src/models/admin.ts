@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document }from "mongoose";
 
-import { IADMIN } from "./admin.interface";
+import { IADMIN } from "../interface/admin.interface";
 
 
 

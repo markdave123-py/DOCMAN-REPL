@@ -14,7 +14,6 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
         if (user) 
         {
             return res.status(403).json({"message": "user with this email alread exists"});
-
         }
 
         const hashedPassword = await hashPassword(password);
@@ -28,7 +27,6 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
         });
     
         
-
         const savedUser = await newUser.save();
 
         return  res.status(201).json({
@@ -40,7 +38,6 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
         });
 
     } catch (error) {
-        console.error('Error saving this user', error)
         return res.status(500).json({error: `something went wrong ${error}`});
         
     }

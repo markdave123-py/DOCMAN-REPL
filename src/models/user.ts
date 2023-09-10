@@ -1,14 +1,9 @@
 import mongoose, { Schema, Document }from "mongoose";
+import { IUSER } from "../interface/user.interface";
+import { departmentSchema } from "./department";
 
 
-interface IUSER extends Document {
-    firstName: string;
-    lastName: string;
-    email:  string;   
-    phoneNumber: string;
-    password: string
 
-}
 
 
 export const userSchema = new Schema<IUSER>({
@@ -33,6 +28,10 @@ export const userSchema = new Schema<IUSER>({
         type: String,
         required: true
     },
+    department: {
+        type: departmentSchema,
+        required: true
+    }
 
 })
 

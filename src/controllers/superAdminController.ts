@@ -7,7 +7,7 @@ import { inviteAdminModel } from '../models/inviteAdmin';
 import { isSuperAdmin } from '../utils/isSuperAdmin';
 import { sendMail } from '../utils/mailSender';
 import { Admin } from '../models/admin';
-
+import { DepartmentModel } from '../models/department';
 
 
 
@@ -15,10 +15,12 @@ export const makeUserAdmin = async (req: Request, res: Response, next: NextFunct
 
     const { email } = req.body;
 
-    console.log(userEmail)
+    if(!email) return res.status(HttpStatusCodes.NOT_FOUND).json({"Error": "User Email Required!!"})
+
 
     if(!isSuperAdmin(userEmail)){
-        return res.status(403).json({"error": "Only a Super Admin can perform this action" });
+
+        return res.status(HttpStatusCodes.UNAUTHORIZED).json({"error": "Only a Super Admin can perform this action" });
     }
 
     const user = await User.findOne({email: email});
@@ -39,13 +41,10 @@ export const makeUserAdmin = async (req: Request, res: Response, next: NextFunct
         const validationError = newInvite.validateSync();
 
         if (validationError){
-            return res.status(HttpStatusCodes.CONFLICT).json({error: 'missing required fields'});
+            return res.status(HttpStatusCodes.CONFLICT).json({error: "missing required fields"});
         }
 
         const savedInvite = await newInvite.save();
-
-        
-
 
         return res.status(HttpStatusCodes.CREATED).json({
             // admin: savedAdmin,
@@ -53,7 +52,7 @@ export const makeUserAdmin = async (req: Request, res: Response, next: NextFunct
         })
           
     }catch (err) {
-        console.log(err)
+        
         return res.status(HttpStatusCodes.SERVER_ERROR).json({error: 'Internal Server error'})
   
     }
@@ -70,4 +69,32 @@ export const getAllAdmins = async (req: Request, res: Response, next: NextFuncti
         return res.status(500).json({error: 'Internal server error'})
    }
 
+}
+
+
+export const createDepratment = async (req: Request, res: Response, next: NextFunction) =>{
+    try {
+        const { name } = req.body;
+
+        if(!name) return res.status(HttpStatusCodes.NOT_FOUND).json({"Error": "Department Name Required...."})
+
+        if(!isSuperAdmin(userEmail)) return res.status(HttpStatusCodes.UNAUTHORIZED).json({ "message": "You can't perform this action..."})
+        
+
+        const newDepartment = new DepartmentModel({
+            name: name
+        })
+
+        const savedDepartment = await newDepartment.save();
+
+        return res.status(HttpStatusCodes.CREATED).json({
+
+            Department: newDepartment
+
+        })
+
+
+    } catch (error) {
+        
+    }
 }
