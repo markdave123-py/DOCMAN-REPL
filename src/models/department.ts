@@ -3,11 +3,15 @@ import {Schema, model} from 'mongoose';
 
 
 export const departmentSchema = new Schema<IDepartment>({
-    name: String,
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
     createdAt: Date.now(),
     updatedAt: Date.now()
 
 })
 
 
-export const DepartmentModel = model<IDepartment>('Department', departmentSchema);
+export const Department = model<IDepartment>('Department', departmentSchema);

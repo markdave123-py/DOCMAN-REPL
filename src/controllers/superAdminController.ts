@@ -7,7 +7,7 @@ import { inviteAdminModel } from '../models/inviteAdmin';
 import { isSuperAdmin } from '../utils/isSuperAdmin';
 import { sendMail } from '../utils/mailSender';
 import { Admin } from '../models/admin';
-import { DepartmentModel } from '../models/department';
+import { Department } from '../models/department';
 
 
 
@@ -81,7 +81,7 @@ export const createDepratment = async (req: Request, res: Response, next: NextFu
         if(!isSuperAdmin(userEmail)) return res.status(HttpStatusCodes.UNAUTHORIZED).json({ "message": "You can't perform this action..."})
         
 
-        const newDepartment = new DepartmentModel({
+        const newDepartment = new Department({
             name: name
         })
 

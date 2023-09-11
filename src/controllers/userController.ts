@@ -1,19 +1,22 @@
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../models/user';
 import { hashPassword} from '../utils/hash'
+import { Department } from 'src/models/department';
 
 
 
 export const createNewUser = async (req: Request, res:Response, next: NextFunction) =>{
     try {
 
-        const { firstName, lastName,phoneNumber, email,  password} = req.body;
+        const { firstName, lastName,phoneNumber, email,  password, departmentName} = req.body;
 
         const user = await User.findOne({email: email})
 
-        if (user) 
+        const department = await Department.findOne({name: departmentName})
+
+        if (user || !department) 
         {
-            return res.status(403).json({"message": "user with this email alread exists"});
+            return res.status(403).json({"Error": "Invalid request!!"});
         }
 
         const hashedPassword = await hashPassword(password);
@@ -23,7 +26,8 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
             lastName,
             phoneNumber,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            department: department
         });
     
         
@@ -34,6 +38,7 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
             lastName: savedUser.lastName,
             email: savedUser.email,
             id: savedUser.id,
+            department: savedUser.department,
             phoneNumber: savedUser.phoneNumber
         });
 
