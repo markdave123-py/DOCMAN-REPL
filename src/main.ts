@@ -9,6 +9,7 @@ import { adminRouter } from "./routes/admin.route";
 import { docRoute } from "./routes/docRoute";
 import { inviteRoute } from "./routes/acceptInvite.route";
 import cors from "cors";
+import { errorHandler } from "./middlewares/errorHandler";
 
 const app = express();
 
@@ -30,9 +31,7 @@ app.use("/", adminRouter);
 
 app.use("/", docRoute);
 
-// app.get('/testing', (req: Request, res: Response) => {
-//   res.status(200).json({'message': 'done'});
-// })
+app.use(errorHandler);
 
 connectToDatabase().then(() => {
   // Start the server after successful database connection
