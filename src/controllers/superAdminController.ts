@@ -1,100 +1,110 @@
-import { NextFunction, Request, Response } from 'express';
-import { User } from '../models/user';
-import { config } from '../config/env';
-import { HttpStatusCodes } from '../commonErrors/httpCode';
-import { userEmail } from '../middlewares/verifyToken';
-import { inviteAdminModel } from '../models/inviteAdmin';
-import { isSuperAdmin } from '../utils/isSuperAdmin';
-import { sendMail } from '../utils/mailSender';
-import { Admin } from '../models/admin';
-import { Department } from '../models/department';
+import { NextFunction, Request, Response } from "express";
+import { User } from "../models/user";
+import { config } from "../config/env";
+import { HttpStatusCodes } from "../commonErrors/httpCode";
+import { userEmail } from "../middlewares/verifyToken";
+import { inviteAdminModel } from "../models/inviteAdmin";
+import { isSuperAdmin } from "../utils/isSuperAdmin";
+import { sendMail } from "../utils/mailSender";
+import { Admin } from "../models/admin";
+import { Department } from "../models/department";
 
+export const makeUserAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { email } = req.body;
 
+  if (!email)
+    return res
+      .status(HttpStatusCodes.NOT_FOUND)
+      .json({ Error: "User Email Required!!" });
 
-export const makeUserAdmin = async (req: Request, res: Response, next: NextFunction) =>{
+  if (!isSuperAdmin(userEmail)) {
+    return res
+      .status(HttpStatusCodes.UNAUTHORIZED)
+      .json({ error: "Only a Super Admin can perform this action" });
+  }
 
-    const { email } = req.body;
+  const user = await User.findOne({ email: email });
+  const admin = await Admin.findOne({ email: config.super_admin.email! });
 
-    if(!email) return res.status(HttpStatusCodes.NOT_FOUND).json({"Error": "User Email Required!!"})
+  if (!user) {
+    return res
+      .status(HttpStatusCodes.NOT_FOUND)
+      .json({ Error: `${email} does not have an account, sign up with us.` });
+  }
 
+  try {
+    sendMail(email, config.super_admin.email!);
+    //the logic to change the invitationStatus to accepted || rejected
+    const newInvite = new inviteAdminModel({
+      userEmail: user.email,
+      adminEmail: admin?.email,
+    });
 
-    if(!isSuperAdmin(userEmail)){
+    const validationError = newInvite.validateSync();
 
-        return res.status(HttpStatusCodes.UNAUTHORIZED).json({"error": "Only a Super Admin can perform this action" });
+    if (validationError) {
+      return res
+        .status(HttpStatusCodes.CONFLICT)
+        .json({ error: "missing required fields" });
     }
 
-    const user = await User.findOne({email: email});
-    const admin = await Admin.findOne({email: config.super_admin.email!})
+    const savedInvite = await newInvite.save();
 
-    if(!user){
-        return res.status(HttpStatusCodes.NOT_FOUND).json({"Error": `${ email } does not have an account, sign up with us.`});
-    }
+    return res.status(HttpStatusCodes.CREATED).json({
+      // admin: savedAdmin,
+      invite: savedInvite,
+    });
+  } catch (err) {
+    return res
+      .status(HttpStatusCodes.SERVER_ERROR)
+      .json({ error: "Internal Server error" });
+  }
+};
 
-    try {
-        sendMail(email, config.super_admin.email!)
-        //the logic to change the invitationStatus to accepted || rejected
-        const newInvite = new inviteAdminModel({
-            userEmail: user.email,
-            adminEmail: admin?.email
-        })
-        
-        const validationError = newInvite.validateSync();
-
-        if (validationError){
-            return res.status(HttpStatusCodes.CONFLICT).json({error: "missing required fields"});
-        }
-
-        const savedInvite = await newInvite.save();
-
-        return res.status(HttpStatusCodes.CREATED).json({
-            // admin: savedAdmin,
-            invite: savedInvite
-        })
-          
-    }catch (err) {
-        
-        return res.status(HttpStatusCodes.SERVER_ERROR).json({error: 'Internal Server error'})
-  
-    }
-
-}
-
-export const getAllAdmins = async (req: Request, res: Response, next: NextFunction) =>{
-    
-    try{
+export const getAllAdmins = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
     const users = await Admin.find().select("-password");
 
     return res.status(200).json(users);
-   }catch{
-        return res.status(500).json({error: 'Internal server error'})
-   }
+  } catch {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
-}
+export const createDepratment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { name } = req.body;
 
+    if (!name)
+      return res
+        .status(HttpStatusCodes.NOT_FOUND)
+        .json({ Error: "Department Name Required...." });
 
-export const createDepratment = async (req: Request, res: Response, next: NextFunction) =>{
-    try {
-        const { name } = req.body;
+    if (!isSuperAdmin(userEmail))
+      return res
+        .status(HttpStatusCodes.UNAUTHORIZED)
+        .json({ message: "You can't perform this action..." });
 
-        if(!name) return res.status(HttpStatusCodes.NOT_FOUND).json({"Error": "Department Name Required...."})
+    const newDepartment = new Department({
+      name: name,
+    });
 
-        if(!isSuperAdmin(userEmail)) return res.status(HttpStatusCodes.UNAUTHORIZED).json({ "message": "You can't perform this action..."})
-        
+    const savedDepartment = await newDepartment.save();
 
-        const newDepartment = new Department({
-            name: name
-        })
-
-        const savedDepartment = await newDepartment.save();
-
-        return res.status(HttpStatusCodes.CREATED).json({
-
-            Department: newDepartment
-
-        })
-
-
-    } catch (error) {
-        
-    }
-}
+    return res.status(HttpStatusCodes.CREATED).json({
+      Department: newDepartment,
+    });
+  } catch (error) {}
+};

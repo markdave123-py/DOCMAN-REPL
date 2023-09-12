@@ -3,10 +3,7 @@ import { configUpload } from "../middlewares/configDoc";
 import { controllerHandler } from "../middlewares/controllerHandlers";
 import { uploadDocument } from "../controllers/uploadDocController";
 
-const upload = configUpload()
+const upload = configUpload();
 export const uploadRouter = Router();
 
-
-
-
-// uploadRouter.post('/', upload.single('file'), controllerHandler(uploadDocument)); 
+// uploadRouter.post('/', upload.single('file'), controllerHandler(uploadDocument));
