@@ -7,10 +7,12 @@ import { uploadDocument } from "../controllers/uploadDocController";
 
 const upload = configUpload();
 
-
-
 export const docRoute = Router();
 
-docRoute.get('/getAllDocs', controllerHandler(getDocumments));
-docRoute.get('/getOneDoc/:name', controllerHandler(getOneDocument));
-docRoute.post('/upload', upload.single('file'), controllerHandler(uploadDocument)); 
+docRoute.get("/getAllDocs", controllerHandler(getDocumments));
+docRoute.get("/getOneDoc/:name", controllerHandler(getOneDocument));
+docRoute.post(
+  "/upload",
+  upload.single("file"),
+  controllerHandler(uploadDocument),
+);
