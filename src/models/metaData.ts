@@ -24,14 +24,12 @@ export const metaDataSchema = new Schema<ImetaDataSchema>(
               
             }
         ],
-    createdAt: { 
-        type: Date, 
-        default: Date.now 
-    },
-    updatedAt: { 
-        type: Date, 
-        default: Date.now 
-    },
+
+      departmentAccess:{
+        type: [String],
+        required: true
+      },
+    
   },
   {
     timestamps: true, // Automatically manage createdAt and updatedAt fields

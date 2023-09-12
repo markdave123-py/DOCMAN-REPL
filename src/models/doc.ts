@@ -1,4 +1,4 @@
-import {Schema, Document, model} from 'mongoose';
+import {Schema, model} from 'mongoose';
 import { metaDataSchema } from './metaData';
 import { IdocSchema } from '../interface/doc.interface';
 
@@ -20,19 +20,16 @@ export const docSchema = new Schema<IdocSchema>({
     type: String, 
     required: true 
 },
-  createdAt: { 
-    type: Date, 
-    default: Date.now },
-  updatedAt: { 
-    type: Date, 
-    default: Date.now 
-},
   metaData: {
     type: metaDataSchema,
     required: true
   },
   // Embed MetaData schema
-});
+  },
+  {
+    timestamps: true
+  }
+);
 
 
 

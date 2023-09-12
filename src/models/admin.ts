@@ -28,6 +28,10 @@ export const adminSchema = new Schema<IADMIN>({
         required: true
     }
  
-})
+},
+    {
+        timestamps: true
+    }
+)
 
 export const Admin = mongoose.model<IADMIN>("Admin", adminSchema);

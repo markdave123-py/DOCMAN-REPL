@@ -33,6 +33,10 @@ export const userSchema = new Schema<IUSER>({
         required: true
     }
 
-})
+},
+    {
+        timestamps: true
+    }
+)
 
 export const User = mongoose.model<IUSER>("User", userSchema);

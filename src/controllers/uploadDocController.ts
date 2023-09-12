@@ -21,10 +21,11 @@ export const uploadDocument = async (req: Request, res:Response) => {
             return res.status(HttpStatusCodes.FORBIDDEN).json({"error": "Only Admins can perform this action"});
         }
 
-        const {name, readAccess, writeAccess, deleteAccess } = req.body;
+        const {name, readAccess, writeAccess, deleteAccess, departmentAccess} = req.body;
         const readAccessArray: string[] = Array.isArray(readAccess) ? readAccess : [];
         const writeAccessArray: string[] = Array.isArray(writeAccess) ? writeAccess : [];
         const deleteAccessArray: string[] = Array.isArray(deleteAccess) ? deleteAccess : [];
+        const departmentAccessArray: string[] = Array.isArray(departmentAccess) ? departmentAccess : [];
 
 
         const file = req.file;
@@ -42,7 +43,8 @@ export const uploadDocument = async (req: Request, res:Response) => {
         const metaData = new metaDataModel({
             writeAccess: writeAccessArray,
             readAccess: readAccessArray,
-            deleteAccess: deleteAccessArray
+            deleteAccess: deleteAccessArray,
+            departmentAccess: departmentAccessArray
         });
 
         await metaData.save();
