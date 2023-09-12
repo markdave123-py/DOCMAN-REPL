@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../models/user';
 import { hashPassword} from '../utils/hash'
-import { Department } from 'src/models/department';
+import { Department } from '../models/department';
+import { HttpStatusCodes } from '../commonErrors/httpCode';
 
 
 
@@ -11,12 +12,16 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
         const { firstName, lastName,phoneNumber, email,  password, departmentName} = req.body;
 
         const user = await User.findOne({email: email})
+        if (user) 
+        {
+            return res.status(HttpStatusCodes.CONFLICT).json({"Error": "Bad request!!"});
+        }
 
         const department = await Department.findOne({name: departmentName})
 
-        if (user || !department) 
+        if (!department) 
         {
-            return res.status(403).json({"Error": "Invalid request!!"});
+            return res.status(HttpStatusCodes.CONFLICT).json({"Error": "Bad request, Invalid Department !!"});
         }
 
         const hashedPassword = await hashPassword(password);

@@ -36,7 +36,8 @@ export const handleLogin = async (req:Request, res:Response, next: NextFunction)
         res.json({
             "accessToken": accessToken,
             "documents": docs,
-            "firstName": user.firstName
+            "firstName": user.firstName,
+            "email": user.email
         });
     }else{
         res.sendStatus(401).json({message: "invalid credentials"});

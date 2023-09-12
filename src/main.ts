@@ -7,6 +7,7 @@ import { router } from './routes/userRoute';
 import { verifyJwt } from './middlewares/verifyToken';
 import { adminRouter } from './routes/admin.route';
 import { docRoute } from './routes/docRoute';
+import { createDefaultDepartment } from './utils/defaultDepartment';
 import { inviteRoute } from './routes/acceptInvite.route';
 import cors from 'cors'
 
@@ -48,6 +49,7 @@ connectToDatabase()
   console.log(`sucessfully connected to the database ${config.mongoUrl}`)
   app.listen(config.port, async () => {
     await addAdminToDb();
+    await createDefaultDepartment();
     console.log(`Server is running on http://localhost:${config.port} `);
   });
 });

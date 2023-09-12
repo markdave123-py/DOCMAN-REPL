@@ -10,8 +10,9 @@ export const verifyJwt =  (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
     if (!authHeader) {
         res.status(401).json({"message": "pls provide access token"})
-        throw new UNAUTHORIZED_ERROR("User Unauthorized");}
-    const token = authHeader.split('.')[1];
+        throw new UNAUTHORIZED_ERROR("User Unauthorized");
+    }
+    const token = authHeader.split(' ')[1];
 
 
     jwt.verify(
@@ -19,8 +20,12 @@ export const verifyJwt =  (req: Request, res: Response, next: NextFunction) => {
         `${process.env.ACCESS_TOKEN_SECRET}`,
         (err: any, decoded: any)=>{
             if(err) {
-                res.json({'message': 'Could not verify token try again later!!!'})
-                throw new ForbiddenError("Could not verify token try again later!!!")};
+                res.json({
+                    'message': 'Could not verify token try again later!!!'
+                })
+                console.log(err);
+                throw new ForbiddenError("Could not verify token try again later!!!")
+            };
             userEmail = decoded.username;
             next();
             
