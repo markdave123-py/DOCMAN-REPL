@@ -11,7 +11,7 @@ export const verifyJwt =  (req: Request, res: Response, next: NextFunction) => {
     if (!authHeader) {
         res.status(401).json({"message": "pls provide access token"})
         throw new UNAUTHORIZED_ERROR("User Unauthorized");}
-    const token = authHeader.split(' ')[1];
+    const token = authHeader.split('.')[1];
 
 
     jwt.verify(
