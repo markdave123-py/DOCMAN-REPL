@@ -1,9 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import { UNAUTHORIZED_ERROR, ForbiddenError } from '../commonErrors/Errors/Errors';
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import {
+  UNAUTHORIZED_ERROR,
+  ForbiddenError,
+} from "../commonErrors/Errors/Errors";
 
-
-export let userEmail: string ;
+export let userEmail: string;
 
 export const verifyJwt =  (req: Request, res: Response, next: NextFunction) => {
     // console.log(req.headers)

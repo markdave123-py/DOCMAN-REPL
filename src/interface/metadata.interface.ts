@@ -1,8 +1,6 @@
 export interface ImetaDataSchema extends Document {
-
-  writeAccess: string[]; 
+  writeAccess: string[];
   readAccess: string[];
   deleteAccess: string[];
-  departmentAccess: String[];
-
+  departmentAccess: string[];
 }

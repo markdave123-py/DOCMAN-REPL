@@ -4,20 +4,26 @@ import { hashPassword} from '../utils/hash'
 import { Department } from '../models/department';
 import { HttpStatusCodes } from '../commonErrors/httpCode';
 
+export const createNewUser = async (req: Request, res: Response, next: NextFunction,) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      phoneNumber,
+      email,
+      password,
+      departmentName,
+    } = req.body;
 
+    const user = await User.findOne({ email: email });
 
-export const createNewUser = async (req: Request, res:Response, next: NextFunction) =>{
-    try {
-
-        const { firstName, lastName,phoneNumber, email,  password, departmentName} = req.body;
-
-        const user = await User.findOne({email: email})
-        if (user) 
+    if (user) 
         {
             return res.status(HttpStatusCodes.CONFLICT).json({"Error": "Bad request!!"});
         }
+      
+    const department = await Department.findOne({ name: departmentName });
 
-        const department = await Department.findOne({name: departmentName})
 
         if (!department) 
         {
@@ -43,8 +49,9 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
             lastName: savedUser.lastName,
             email: savedUser.email,
             id: savedUser.id,
-            department: savedUser.department,
-            phoneNumber: savedUser.phoneNumber
+            phoneNumber: savedUser.phoneNumber,
+            department: savedUser.department
+            
         });
 
     } catch (error) {
@@ -52,23 +59,24 @@ export const createNewUser = async (req: Request, res:Response, next: NextFuncti
         
     }
 
-}
+    
+};
 
-export const getAllUsers = async (req: Request, res:Response, next: NextFunction) =>{
-
-   try{
-    const users = await User.find().select('-password');
-    if (users.length === 0 ){
-        res.json({'message': 'No users yet.'})
+export const getAllUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const users = await User.find().select("-password");
+    if (users.length === 0) {
+      res.json({ message: "No users yet." });
     }
-
 
     return res.status(200).json({
-        users: users
-    }
-    );
-   }catch{
-        return res.status(500).json({error: 'Internal server error'})
-   }
-
-}
+      users: users,
+    });
+  } catch {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};

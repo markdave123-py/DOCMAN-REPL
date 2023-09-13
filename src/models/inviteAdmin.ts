@@ -1,39 +1,29 @@
-import {Schema, Document, model} from 'mongoose';
-
-
+import { Schema, Document, model } from "mongoose";
 
 const inviteSchema = new Schema({
-  userEmail: { 
-    type: String, 
-    required: true,
-
-},
-  adminEmail: { 
-    type: String, 
-    required: true,
-
-  },
-  acceptedAt: { 
-    type: Date
-},
-
-  invitationStatus:{
+  userEmail: {
     type: String,
-    enum: ['accepted', 'rejected', 'pending'],
-    default: 'pending',
-},
+    required: true,
+  },
+  adminEmail: {
+    type: String,
+    required: true,
+  },
+  acceptedAt: {
+    type: Date,
+  },
 
-  rejectedAt: { 
-    type: Date,  
-  }
+  invitationStatus: {
+    type: String,
+    enum: ["accepted", "rejected", "pending"],
+    default: "pending",
+  },
 
-})
+  rejectedAt: {
+    type: Date,
+  },
+});
 
+const inviteAdminModel = model("Invite", inviteSchema);
 
-
-
-
-
-const inviteAdminModel = model('Invite', inviteSchema);
-
-export { inviteAdminModel }
+export { inviteAdminModel };
