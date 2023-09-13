@@ -58,10 +58,14 @@ export const getOneDocument = async (
     const doc = await DocModel.findOne({ name: name });
 
     const user = await User.findOne({ email: userEmail});
+    console.log(user)
 
     if(!doc) return res.status(HttpStatusCodes.BAD_REQUEST).json({"Error": "Invalid, No Document with this name"})
+    //|| hasDepartmentAcces(doc, user?.department.name)
 
-    if (!admin || !hasDocReadAccess(doc, userEmail) || hasDepartmentAcces(doc, user!.department.name)) { 
+    
+
+    if (!admin && !hasDocReadAccess(doc, userEmail) && hasDepartmentAcces(doc, user?.department.name)) { 
       return res
         .status(HttpStatusCodes.UNAUTHORIZED)
         .json({ error: "you cant perform this action!!" });
@@ -71,7 +75,7 @@ export const getOneDocument = async (
       Document: doc,
     });
   } catch (error) {
-    console.error("Error retrieving documents:", error);
+    console.log("Error retrieving documents:", error, error.message);
     return res.status(500).json({ error: "Something went wrong." });
   }
 };

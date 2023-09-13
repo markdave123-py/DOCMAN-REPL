@@ -28,7 +28,7 @@ export const hasDocDeleteAccess = (Doc: IdocSchema, email: string): boolean => {
 
 
 
-export const hasDepartmentAcces = (Doc: IdocSchema, departmentName: string) =>{
+export const hasDepartmentAcces = (Doc: IdocSchema, departmentName: any) =>{
   if(Doc.metaData && Doc.metaData.departmentAccess) return Doc.metaData.departmentAccess.includes(departmentName)
 }
 

@@ -38,6 +38,10 @@ export const uploadDocument = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "No file uploaded." });
     }
 
+    const doc = await DocModel.findOne({name: name})
+
+    if (doc) return res.status(HttpStatusCodes.CONFLICT).json({error: "Every document should have a unique name!!!"})
+
     const cloudinaryResponse: any = await streamUploadFile(file.buffer);
 
     // fs.unlinkSync(tempFilePath);
