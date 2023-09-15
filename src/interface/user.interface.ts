@@ -7,4 +7,5 @@ export interface IUSER extends Document {
   phoneNumber: string;
   password: string;
   department: IDepartment;
+  role: "admin" | "user";
 }

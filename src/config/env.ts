@@ -10,6 +10,7 @@ export const config = Object.freeze(
     port : process.env.PORT,
     mongoUrl: process.env.MONGO_URL as string,
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET as string,
+    REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET as string,
     DOCMAN_API_KEY: process.env.DOCMAN_API_KEY as string,
 
     super_admin: {

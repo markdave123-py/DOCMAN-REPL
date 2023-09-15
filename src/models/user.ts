@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { IUSER } from "../interface/user.interface";
 import { departmentSchema } from "./department";
 
@@ -30,6 +30,11 @@ export const userSchema = new Schema<IUSER>(
       type: departmentSchema,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["admin", "user"],
+      default: "user"
+    }
   },
   {
     timestamps: true,
