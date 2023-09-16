@@ -21,14 +21,17 @@ export const makeUserAdmin = async (
       .status(HttpStatusCodes.NOT_FOUND)
       .json({ Error: "User Email Required!!" });
 
-  if (!isSuperAdmin(userEmail)) {
+
+  const currentUser = req.user!
+
+  if (!isSuperAdmin(currentUser.email)) {
     return res
       .status(HttpStatusCodes.UNAUTHORIZED)
       .json({ error: "Only a Super Admin can perform this action" });
   }
 
   const user = await User.findOne({ email: email });
-  const admin = await Admin.findOne({ email: config.super_admin.email! });
+  // const admin = await User.findOne({ email: currentUser.email, role: "admin" });
 
   if (!user) {
     return res
@@ -37,11 +40,11 @@ export const makeUserAdmin = async (
   }
 
   try {
-    sendMail(email, config.super_admin.email!);
+    sendMail(email, currentUser.email);
     //the logic to change the invitationStatus to accepted || rejected
     const newInvite = new inviteAdminModel({
       userEmail: user.email,
-      adminEmail: admin?.email,
+      adminEmail: currentUser.email,
     });
 
     const validationError = newInvite.validateSync();
@@ -59,6 +62,7 @@ export const makeUserAdmin = async (
       invite: savedInvite,
     });
   } catch (err) {
+    console.log(err)
     return res
       .status(HttpStatusCodes.SERVER_ERROR)
       .json({ error: "Internal Server error" });
@@ -70,41 +74,53 @@ export const getAllAdmins = async (
   res: Response,
   next: NextFunction,
 ) => {
-  try {
-    const users = await Admin.find().select("-password");
 
-    return res.status(200).json(users);
+  
+  try {
+    const currentUser = req.user!
+    if(currentUser.role !== "admin") return res.status(HttpStatusCodes.FORBIDDEN).json("Only admin can perofrm this action..")
+    const users = await User.find({role: "admin"}).select("-password");
+
+    return res.status(HttpStatusCodes.OK).json(users);
   } catch {
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(HttpStatusCodes.SERVER_ERROR).json({ error: "Internal server error" });
   }
 };
 
-// export const createDepratment = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction,
-// ) => {
-//   try {
-//     const { name } = req.body;
+export const createDepratment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { name } = req.body;
 
-//     if (!name)
-//       return res
-//         .status(HttpStatusCodes.NOT_FOUND)
-//         .json({ Error: "Department Name Required...." });
+    if (!name)
+      return res
+        .status(HttpStatusCodes.NOT_FOUND)
+        .json({ Error: "Department Name Required...." });
 
-//     if (!isSuperAdmin(userEmail))
-//       return res
-//         .status(HttpStatusCodes.UNAUTHORIZED)
-//         .json({ message: "You can't perform this action..." });
 
-//     const newDepartment = new Department({
-//       name: name,
-//     });
+    const currentUser = req.user!
 
-//     const savedDepartment = await newDepartment.save();
+    console.log(name, currentUser)
 
-//     return res.status(HttpStatusCodes.CREATED).json({
-//       Department: newDepartment,
-//     });
-//   } catch (error) {}
-// };
+    if (!isSuperAdmin(currentUser.email))
+      return res
+        .status(HttpStatusCodes.UNAUTHORIZED)
+        .json({ message: "You can't perform this action..." });
+
+    const newDepartment = new Department({
+      name: name,
+    });
+
+     await newDepartment.save();
+
+    return res.status(HttpStatusCodes.CREATED).json({
+      Department: newDepartment,
+    });
+  } catch (error) {
+    console.log(error)
+    res.status(HttpStatusCodes.SERVER_ERROR)
+  }
+};

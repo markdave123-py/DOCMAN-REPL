@@ -19,7 +19,7 @@ export const createNewUser = async (req: Request, res: Response, next: NextFunct
 
     if (user) 
         {
-            return res.status(HttpStatusCodes.CONFLICT).json({"Error": "Bad request!!"});
+            return res.status(HttpStatusCodes.CONFLICT).json({"Error": "Bad request!!, you already have an account with us.."});
         }
       
           const department = await Department.findOne({ name: departmentName });
@@ -32,7 +32,7 @@ export const createNewUser = async (req: Request, res: Response, next: NextFunct
 
         const hashedPassword = await hashPassword(password);
 
-        const newUser = new User({
+        const newUser = await User.create({
             firstName,
             lastName,
             phoneNumber,
@@ -42,20 +42,21 @@ export const createNewUser = async (req: Request, res: Response, next: NextFunct
         });
     
         
-        const savedUser = await newUser.save();
+        // const newUser = await newUser.save();
 
         return  res.status(201).json({
-            firstName: savedUser.firstName,
-            lastName: savedUser.lastName,
-            email: savedUser.email,
-            id: savedUser.id,
-            phoneNumber: savedUser.phoneNumber,
-            department: savedUser.department
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            email: newUser.email,
+            id: newUser.id,
+            phoneNumber: newUser.phoneNumber,
+            department: newUser.department
             
         });
 
     } catch (error) {
-        return res.status(500).json({error: `something went wrong ${error}`});
+        console.error(error)
+        return res.status(500).json({error: `something went wrong, couldn't register user..`});
         
     }
 

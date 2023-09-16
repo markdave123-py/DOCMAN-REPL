@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import { IUSER } from "../interface/user.interface";
 import { departmentSchema } from "./department";
 import jwt from "jsonwebtoken";
-import { config } from "src/config/env";
+import { config } from "../config/env";
 
 export const userSchema = new Schema<IUSER>(
   {
@@ -29,8 +29,8 @@ export const userSchema = new Schema<IUSER>(
     },
     //@ts-ignore
     department: {
-      type: departmentSchema,
-      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'Department'
     },
     role: {
       type: String,

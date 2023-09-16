@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, RequestHandler } from "express";
 import { config } from "../config/env";
 import { verifyToken } from "../utils/jwt";
 import { TokenUser } from "../interface/token.user.interface";
@@ -6,7 +6,15 @@ import { TokenUser } from "../interface/token.user.interface";
 export let userEmail: string;
 
 
-export const verifyJwt =  (req: Request, res: Response, next: NextFunction) => {
+declare global {
+  namespace Express {
+    export interface Request {
+      user: TokenUser | null | undefined;
+    }
+  }
+}
+
+export const verifyJwt: RequestHandler =  (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
 
     let tokenDetails;
@@ -19,7 +27,7 @@ export const verifyJwt =  (req: Request, res: Response, next: NextFunction) => {
     const token = authHeader.split(' ')[1];
 
     tokenDetails = verifyToken(token, config.ACCESS_TOKEN_SECRET)
-
+    
     } catch (err: any) {
         req.user =  null
         console.log(err.message, err)

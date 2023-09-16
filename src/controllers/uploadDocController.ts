@@ -4,15 +4,16 @@ import { metaDataModel } from "../models/metaData";
 import { streamUploadFile } from "../utils/uploadUtils";
 import { isSuperAdmin } from "../utils/isSuperAdmin";
 import { userEmail } from "../middlewares/verifyToken";
-import { Admin } from "../models/admin";
+import { User } from "../models/user";
 // import fs from 'fs';
 import { HttpStatusCodes } from "../commonErrors/httpCode";
 
 export const uploadDocument = async (req: Request, res: Response) => {
   try {
-    const admin = await Admin.findOne({ email: userEmail });
+    const currentUser = req.user!
+    const isAdmin = currentUser.role === "admin"
 
-    if (!isSuperAdmin(userEmail) && !admin) {
+    if (!isSuperAdmin(currentUser.email) && !isAdmin) {
       return res
         .status(HttpStatusCodes.FORBIDDEN)
         .json({ error: "Only Admins can perform this action" });

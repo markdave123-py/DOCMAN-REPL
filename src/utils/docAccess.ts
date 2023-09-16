@@ -1,7 +1,7 @@
 
 import { IdocSchema } from "../interface/doc.interface";
 import { TokenUser } from "../interface/token.user.interface";
-import { User } from "src/models/user";
+import { User } from "../models/user";
 
 
 export const hasDocReadAccess = (doc: IdocSchema, email: string): boolean => {

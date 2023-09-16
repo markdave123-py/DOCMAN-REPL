@@ -3,7 +3,8 @@ import { User } from "../models/user";
 import { genToken } from "../utils/jwt";
 import { DocModel } from "../models/doc";
 import { comparePassword } from "../utils/hash";
-import { config } from "src/config/env";
+import { config } from "../config/env";
+
 
 export const handleLogin = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -25,8 +26,8 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
     if(!passowrdMatch) return res.status(403).json("Invalid credentials provided");
 
 
-    // const accessToken = genToken({email: user.email, role: user.role}, config.ACCESS_TOKEN_SECRET, )
-    const accessToken = user.genToken()
+    const accessToken = genToken({email: user.email, role: user.role}, config.ACCESS_TOKEN_SECRET)
+    // const accessToken = user.genToken()
 
     const docs = await DocModel.find({
         $or: [

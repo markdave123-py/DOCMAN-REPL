@@ -50,8 +50,11 @@ connectToDatabase()
   // Start the server after successful database connection
   console.log(`sucessfully connected to the database ${config.mongoUrl}`);
   app.listen(config.port, async () => {
-    await addAdminToDb();
     await createDefaultDepartment();
+    await addAdminToDb();
+    
+    
+    
     console.log(`Server is running on http://localhost:${config.port} `);
   });
 });
