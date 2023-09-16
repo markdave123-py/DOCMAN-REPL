@@ -1,6 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 import { IUSER } from "../interface/user.interface";
 import { departmentSchema } from "./department";
+import jwt from "jsonwebtoken";
+import { config } from "src/config/env";
 
 export const userSchema = new Schema<IUSER>(
   {
@@ -40,5 +42,10 @@ export const userSchema = new Schema<IUSER>(
     timestamps: true,
   },
 );
+
+userSchema.methods.genToken = function (this: IUSER) {
+  const token = jwt.sign({email: this.email, role: this.role}, config.ACCESS_TOKEN_SECRET, {expiresIn: "2d"});
+  return token
+}
 
 export const User = mongoose.model<IUSER>("User", userSchema);

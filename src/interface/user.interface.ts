@@ -8,4 +8,5 @@ export interface IUSER extends Document {
   password: string;
   department: IDepartment;
   role: "admin" | "user";
+  genToken(): string;
 }

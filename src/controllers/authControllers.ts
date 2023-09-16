@@ -1,61 +1,48 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../models/user";
-import { Admin } from "../models/admin";
-import { genToken } from "../utils/genToken";
+import { genToken } from "../utils/jwt";
 import { DocModel } from "../models/doc";
 import { comparePassword } from "../utils/hash";
+import { config } from "src/config/env";
 
-export const handleLogin = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const { email, password } = req.body;
+export const handleLogin = async (req: Request, res: Response, next: NextFunction) => {
 
-  if (!email || !password)
-    return res.status(400).json({ message: "Email and password required!!" });
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email: email });
-  
+    if (!email || !password) return res.status(400).json({ message: "Email and password required!!" });
 
-  if (!user) {
-
-    console.log("Invalid Email..")
-
-    return res
-      .status(404)
-      .json({
-        message: `No user with this email ${email} please register then you can login`,
-      });
+    const user = await User.findOne({ email: email });
     
-  }
+    if (!user) {
+      console.log("Invalid Email..")
+      return res.status(404).json({
+          message: `No user with this email ${email} please register then you can login`,
+        });  
+    }
 
-  const admin = await Admin.findOne({ email: email });
+    const passowrdMatch = await comparePassword(password, user.password);
 
-  const isPassowrdMatch = await comparePassword(password, user.password);
+    if(!passowrdMatch) return res.status(403).json("Invalid credentials provided");
 
-  if (isPassowrdMatch) {
 
-    
-    const accessToken = admin ? genToken(user.email, "admin") : genToken(user.email, "user");
+    // const accessToken = genToken({email: user.email, role: user.role}, config.ACCESS_TOKEN_SECRET, )
+    const accessToken = user.genToken()
 
     const docs = await DocModel.find({
-      $or: [
-        { "metaData.readAccess": { $in: [user.email] } },
-        { "metaData.writeAccess": { $in: [user.email] } },
-      ],
-    });
+        $or: [
+          { "metaData.readAccess": { $in: [user.email] } },
+          { "metaData.writeAccess": { $in: [user.email] } },
+        ],
+      });
 
     res.json({
-      accessToken: accessToken,
-      documents: docs,
-      firstName: user.firstName,
-            "email": user.email,
-            // "role": user.role
-    });
-  } else {
-    res.sendStatus(401).json({ message: "invalid credentials" });
-  }
-
-  //return all docs he has access to.
+        "message": "You are logged in...",
+        accessToken: accessToken,
+        documents: docs,
+        firstName: user.firstName,
+        email: user.email,
+        role: user.role
+              
+      });
+    
 };

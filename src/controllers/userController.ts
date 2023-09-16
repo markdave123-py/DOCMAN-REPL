@@ -22,7 +22,7 @@ export const createNewUser = async (req: Request, res: Response, next: NextFunct
             return res.status(HttpStatusCodes.CONFLICT).json({"Error": "Bad request!!"});
         }
       
-    const department = await Department.findOne({ name: departmentName });
+          const department = await Department.findOne({ name: departmentName });
 
 
         if (!department) 

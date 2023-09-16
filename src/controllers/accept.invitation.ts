@@ -2,7 +2,7 @@ import { NextFunction, Response, Request } from "express";
 import { inviteAdminModel } from "../models/inviteAdmin";
 import { HttpStatusCodes } from "../commonErrors/httpCode";
 import { User } from "../models/user";
-import { Admin } from "../models/admin";
+// import { Admin } from "../models/admin";
 
 export const acceptInvitation = async (
   req: Request,
@@ -13,36 +13,40 @@ export const acceptInvitation = async (
     const { email } = req.body;
 
     const invite = await inviteAdminModel.findOne({ userEmail: email });
-    const user = await User.findOne({ email: email });
 
     if (!invite) {
-      return res.status(HttpStatusCodes.CONFLICT).json({
-        error: `no invitaton was sent to ${email}`,
-      });
-    }
-    const updatedInvite = await invite.updateOne({
-      invitationStatus: "accepted",
+    return res.status(HttpStatusCodes.CONFLICT).json({
+      error: `No invitation was sent to ${email}`,
     });
+  }
 
-    const newAdmin = await Admin.create({
-      firstName: user?.firstName,
-      lastName: user?.lastName,
-      email: user?.email,
-      phoneNumber: user?.phoneNumber,
-      password: user?.password,
-    });
+  // Update the invitationStatus to "accepted"
+    const updatedInvite = await inviteAdminModel.updateOne(
+          { userEmail: email },
+          { $set: { invitationStatus: "accepted" } }
+  );
 
-    return res.status(HttpStatusCodes.OK).json({
-      newAdmin: {
-        firstName: user?.firstName,
-        lastName: user?.lastName,
-        email: user?.email,
-        phoneNumber: user?.phoneNumber,
-      },
+    let updatedUser = await User.findOneAndUpdate(
+      {email: email},
+      {$set: {role: "admin"} },
+      { new: true }
+    ).select('-password');
+
+    if (!updatedUser) {
+    return res.status(HttpStatusCodes.NOT_FOUND).json({
+      error: `User with email ${email} not found`,
     });
+  }
+
+
+    res.status(HttpStatusCodes.OK).json({
+    message: `Invitation status and user role updated successfully`,
+    user: updatedUser,
+  });
+    
   } catch (err) {
-    console.log(err, err.message);
-    res.status(500).json("Internal server error!!!");
+    console.error('Error updating invitation and user role', err);
+    res.status(HttpStatusCodes.SERVER_ERROR).json("Internal server error!!!");
   }
 };
 
