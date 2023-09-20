@@ -23,7 +23,8 @@ export const config = Object.freeze(
     CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string ,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
-    DEFAULT_DEPARTMENT: process.env.DEFAULT_DEPARTMENT as string
+    DEFAULT_DEPARTMENT: process.env.DEFAULT_DEPARTMENT as string,
+    DEFAULT_CATEGORY: process.env.DEFAULT_CATEGORY as string
 
     
     

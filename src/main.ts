@@ -3,7 +3,7 @@
 import express, { Request, Response } from 'express';
 import {connectToDatabase} from "./config/database"
 import { config } from './config/env';
-import { addAdminToDb } from './utils/addSuperAdmin';
+import { addAdminToDb, defaultCategory } from './utils/addSuperAdmin';
 import { router } from './routes/userRoute';
 import { verifyJwt } from './middlewares/verifyToken';
 import { adminRouter } from './routes/admin.route';
@@ -50,6 +50,7 @@ connectToDatabase()
   // Start the server after successful database connection
   console.log(`sucessfully connected to the database ${config.mongoUrl}`);
   app.listen(config.port, async () => {
+    await defaultCategory();
     await createDefaultDepartment();
     await addAdminToDb();
     

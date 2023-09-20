@@ -22,10 +22,10 @@ export const createNewUser = async (req: Request, res: Response, next: NextFunct
             return res.status(HttpStatusCodes.CONFLICT).json({"Error": "Bad request!!, you already have an account with us.."});
         }
       
-          const department = await Department.findOne({ name: departmentName });
+    const department = await Department.findOne({ name: departmentName });
 
 
-        if (!department) 
+    if (!department) 
         {
             return res.status(HttpStatusCodes.CONFLICT).json({"Error": "Bad request, Invalid Department !!"});
         }
@@ -71,7 +71,7 @@ export const getAllUsers = async (
   try {
     const users = await User.find().select("-password");
     if (users.length === 0) {
-      res.json({ message: "No users yet." });
+      return res.json({ message: "No users yet." });
     }
 
     return res.status(200).json({

@@ -59,7 +59,7 @@ export const getDocumments = async (
  
     const documents = await DocModel.find(query)
 
-    if(!documents.length) return res.status(HttpStatusCodes.FORBIDDEN).json("You can perform this action...");
+    if(!documents.length) return res.status(HttpStatusCodes.OK).json("You have not uploaded yet ...");
 
     return res.status(HttpStatusCodes.OK).json({ Documents: documents });
   

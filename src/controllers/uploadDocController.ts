@@ -3,23 +3,30 @@ import { DocModel } from "../models/doc";
 import { metaDataModel } from "../models/metaData";
 import { streamUploadFile } from "../utils/uploadUtils";
 import { isSuperAdmin } from "../utils/isSuperAdmin";
-import { userEmail } from "../middlewares/verifyToken";
-import { User } from "../models/user";
+import { Category } from "../models/categories";
 // import fs from 'fs';
 import { HttpStatusCodes } from "../commonErrors/httpCode";
 
 export const uploadDocument = async (req: Request, res: Response) => {
   try {
     const currentUser = req.user!
-    const isAdmin = currentUser.role === "admin"
+    // const isAdmin = currentUser.role === "admin"
 
-    if (!isSuperAdmin(currentUser.email) && !isAdmin) {
-      return res
-        .status(HttpStatusCodes.FORBIDDEN)
-        .json({ error: "Only Admins can perform this action" });
-    }
+    // if (!isSuperAdmin(currentUser.email) || !isAdmin) {
+    //   return res
+    //     .status(HttpStatusCodes.FORBIDDEN)
+    //     .json({ error: "Only Admins can perform this action" });
+    // }
 
-    const { name, readAccess, writeAccess, deleteAccess, departmentAccess } = req.body;
+    const { name, readAccess, writeAccess, deleteAccess, departmentAccess, categoryName } = req.body;
+
+    const category = await Category.findOne({name: categoryName})
+
+    if(!category || !categoryName) return res.status(404).json({
+
+      message: "Invalid Category..."
+
+    })
     const readAccessArray: string[] = Array.isArray(readAccess)
       ? readAccess
       : [];
@@ -46,18 +53,21 @@ export const uploadDocument = async (req: Request, res: Response) => {
     const cloudinaryResponse: any = await streamUploadFile(file.buffer);
 
     // fs.unlinkSync(tempFilePath);
-
+    console.log(category, categoryName)
     const metaData = new metaDataModel({
+
       writeAccess: writeAccessArray,
       readAccess: readAccessArray,
       deleteAccess: deleteAccessArray,
       departmentAccess: departmentAccessArray,
+
     });
 
     await metaData.save();
 
     const document = new DocModel({
       name: name,
+      category: category,
       cloudinaryId: cloudinaryResponse.public_id,
       path: cloudinaryResponse.secure_url,
       metaData: metaData,
@@ -71,3 +81,6 @@ export const uploadDocument = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Something went wrong." });
   }
 };
+
+
+

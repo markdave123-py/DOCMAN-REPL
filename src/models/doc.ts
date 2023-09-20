@@ -9,6 +9,11 @@ export const docSchema = new Schema<IdocSchema>(
       required: true,
       unique: true,
     },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
+      required: true
+    },
     cloudinaryId: {
       type: String,
       required: true,

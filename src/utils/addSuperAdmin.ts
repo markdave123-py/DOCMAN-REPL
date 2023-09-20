@@ -1,8 +1,8 @@
-import { Admin } from "../models/admin";
 import { config } from "../config/env";
 import { hashPassword } from "./hash";
 import { User } from "../models/user";
 import { Department } from "../models/department";
+import { Category } from "../models/categories";
 
 export const addAdminToDb = async () => {
   const allAdmin = await User.countDocuments({role: "admin"});
@@ -32,3 +32,19 @@ export const addAdminToDb = async () => {
     return newuser;
   }
 };
+
+export const defaultCategory = async () =>{
+
+  const allCategories = await Category.countDocuments();
+
+  if (allCategories === 0){
+
+        const newCategories = await Category.create({
+            name: config.DEFAULT_CATEGORY
+        })
+
+        return newCategories
+
+    }
+
+}
