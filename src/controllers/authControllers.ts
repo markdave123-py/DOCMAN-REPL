@@ -26,7 +26,7 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
     if(!passowrdMatch) return res.status(403).json("Invalid credentials provided");
 
 
-    const accessToken = genToken({email: user.email, role: user.role}, config.ACCESS_TOKEN_SECRET)
+    const accessToken = genToken({email: user.email, role: user.role, department: user.department}, config.ACCESS_TOKEN_SECRET)
     // const accessToken = user.genToken()
 
     const docs = await DocModel.find({

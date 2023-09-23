@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { DocModel } from "../models/doc";
 import { metaDataModel } from "../models/metaData";
 import { streamUploadFile } from "../utils/uploadUtils";
-import { isSuperAdmin } from "../utils/isSuperAdmin";
 import { Category } from "../models/categories";
+import { returnArray } from "../utils/docAccess";
 // import fs from 'fs';
 import { HttpStatusCodes } from "../commonErrors/httpCode";
 
@@ -18,7 +18,7 @@ export const uploadDocument = async (req: Request, res: Response) => {
     //     .json({ error: "Only Admins can perform this action" });
     // }
 
-    const { name, readAccess, writeAccess, deleteAccess, departmentAccess, categoryName } = req.body;
+    const { name, readAccess, writeAccess, deleteAccess, categoryName,departmentReadAccess, departmentWriteAccess, departmentDeleteAccess, forbiddenUsers, forbiddenDepartments } = req.body;
 
     const category = await Category.findOne({name: categoryName})
 
@@ -27,18 +27,14 @@ export const uploadDocument = async (req: Request, res: Response) => {
       message: "Invalid Category..."
 
     })
-    const readAccessArray: string[] = Array.isArray(readAccess)
-      ? readAccess
-      : [];
-    const writeAccessArray: string[] = Array.isArray(writeAccess)
-      ? writeAccess
-      : [];
-    const deleteAccessArray: string[] = Array.isArray(deleteAccess)
-      ? deleteAccess
-      : [];
-    const departmentAccessArray: string[] = Array.isArray(departmentAccess)
-      ? departmentAccess
-      : [];
+    const readAccessArray: string[] = returnArray(readAccess)
+    const writeAccessArray: string[] = returnArray(writeAccess)
+    const deleteAccessArray: string[] = returnArray(deleteAccess)
+    const departmentReadAccessArray: string[] = returnArray(departmentReadAccess)
+    const departmentWriteAccessArray: string[] = returnArray(departmentWriteAccess)
+    const departmentDeleteAccessArray: string[] = returnArray(departmentDeleteAccess)
+    const forbiddenUsersArray: string[] = returnArray(forbiddenUsers)
+    const forbiddenDepartmentsArray: string[] = returnArray(forbiddenDepartments)
 
     const file = req.file;
 
@@ -53,13 +49,17 @@ export const uploadDocument = async (req: Request, res: Response) => {
     const cloudinaryResponse: any = await streamUploadFile(file.buffer);
 
     // fs.unlinkSync(tempFilePath);
-    console.log(category, categoryName)
+    
     const metaData = new metaDataModel({
 
       writeAccess: writeAccessArray,
       readAccess: readAccessArray,
       deleteAccess: deleteAccessArray,
-      departmentAccess: departmentAccessArray,
+      forbiddenUsers: forbiddenUsersArray,
+      departmentReadAccess: departmentReadAccessArray,
+      forbiddenDepartments:forbiddenDepartmentsArray,
+      departmentDeleteAccess:departmentDeleteAccessArray,
+      departmentWriteAccess: departmentWriteAccessArray,
 
     });
 

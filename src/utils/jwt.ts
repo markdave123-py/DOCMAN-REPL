@@ -1,6 +1,7 @@
 import * as jwt from "jsonwebtoken";
+import { IDepartment } from "../interface/department.interface";
 
-export const genToken = (user: {email: string, role: string}, secretKey: string) => {
+export const genToken = (user: {email: string, role: string, department: IDepartment}, secretKey: string) => {
   
   return jwt.sign({user}, secretKey, {expiresIn: "2d"});
 
