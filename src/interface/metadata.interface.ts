@@ -1,4 +1,5 @@
 import { ICategory } from "./category.interface";
+import { Document } from "mongoose";
 
 export interface ImetaDataSchema extends Document {
   writeAccess: string[];

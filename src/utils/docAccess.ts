@@ -39,7 +39,11 @@ export const isAdminOrHasAccess =  (user: TokenUser, doc: IdocSchema) => {
 };
 
 
-export const getAccessibleDocuments = (user: TokenUser) => {
+export const getAccessibleDocuments = 
+
+
+
+(user: TokenUser) => {
   const { email, role, department } = user;
   const isAdmin = role === "admin";
   
