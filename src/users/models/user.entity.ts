@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { IUSER } from "./user.entity.interface";
+import { hashPassword, comparePassword } from "../../utils/hash";
 // import { departmentSchema } from "./department";
 // import jwt from "jsonwebtoken";
 // import { config } from "../config/env";
@@ -40,9 +41,33 @@ export const userSchema = new Schema<IUSER>(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
+userSchema.methods.comparePassword = async function (this: IUSER, password: string) {
+  try {
+    return await comparePassword(password, this.password);
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+userSchema.pre('save', async function (this:IUSER, next) {
+  try { 
+
+    // if(!this.isModified('password')) return ();
+
+    const hashedPassword = await hashPassword(this.password);
+
+    this.password = hashedPassword;
+
+    next();
+    
+  } catch (error) {
+    return next(error)
+  };
+    });
+  // });
 // userSchema.methods.genToken = function (this: IUSER) {
 //   const token = jwt.sign({email: this.email, role: this.role}, config.ACCESS_TOKEN_SECRET, {expiresIn: "2d"});
 //   return token

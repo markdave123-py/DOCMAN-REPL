@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { createNewUser } from "../controllers/userController";
-import { handleLogin } from "../controllers/authControllers";
+import { createNewUser } from "../auth/services/sign.up";
+import { handleLogin } from "../auth/services/sign.in";
 import { createNewUserSchema, userLoginSchema } from "../validation/schema";
 import { controllerHandler } from "../middlewares/controllerHandlers";
-import { getAllUsers } from "../controllers/userController";
+import { getAllUsers } from "../auth/services/sign.up";
 
 export const router = Router();
 

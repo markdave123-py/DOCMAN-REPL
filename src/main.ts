@@ -5,13 +5,14 @@ import {connectToDatabase} from "./config/database"
 import { config } from './config/env';
 import { addAdminToDb, defaultCategory } from './utils/addSuperAdmin';
 import { router } from './routes/userRoute';
-import { verifyJwt } from './middlewares/verifyToken';
+import { verifyJwt } from './auth/services/current.user';
 import { adminRouter } from './routes/admin.route';
 import { docRoute } from './routes/docRoute';
 import { createDefaultDepartment } from './utils/defaultDepartment';
 import { departmentRouter } from './routes/departmentRoute';
 import { inviteRoute } from './routes/acceptInvite.route';
 import cors from 'cors'
+import cookie from 'cookie-parser';
 
 
 
@@ -22,6 +23,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookie());
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, World!");

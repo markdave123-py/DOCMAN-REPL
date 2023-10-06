@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../models/user";
 import { config } from "../config/env";
 import { HttpStatusCodes } from "../commonErrors/httpCode";
-import { userEmail } from "../middlewares/verifyToken";
+import { userEmail } from "../auth/services/current.user";
 import { inviteAdminModel } from "../models/inviteAdmin";
 import { isSuperAdmin } from "../utils/isSuperAdmin";
 import { sendMail } from "../utils/mailSender";
