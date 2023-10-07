@@ -1,8 +1,8 @@
 import { NextFunction, Response, Request } from "express";
-import { HttpStatusCodes } from "../commonErrors/httpCode";
-import { config } from "../config/env";
+import { HttpStatusCodes } from "../core/Errors/httpCode";
+import { config } from "../core/config/env";
 import { User } from "../models/user";
-import { sendMail } from "../utils/mailSender";
+import { sendMail } from "../core/utils/mailSender";
 
 export const inviteAdmin = async (
   req: Request,

@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../../models/user";
-import { genToken } from "../../utils/jwt";
+import { genToken } from "../../core/utils/jwt";
 import { DocModel } from "../../models/doc";
-import { comparePassword } from "../../utils/hash";
-import { config } from "../../config/env";
+import { comparePassword } from "../../core/utils/hash";
+import { config } from "../../core/config/env";
+import { sanitize } from "../../core/utils/Helper";
+import { HttpStatusCodes } from "src/core/Errors/httpCode";
 
 
 export const handleLogin = async (req: Request, res: Response, next: NextFunction) => {
@@ -12,7 +14,7 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
 
     if (!email || !password) return res.status(400).json({ message: "Email and password required!!" });
 
-    const user = await User.findOne({ email: email });
+    let user = await User.findOne({ email: email });
     
     if (!user) {
       console.log("Invalid Email..")
@@ -31,8 +33,9 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
     const accessToken = genToken({email: user.email, role: user.role, department: user.department}, config.ACCESS_TOKEN_SECRET)
     const refreshToken = genToken({email: user.email, role: user.role, department: user.department}, config.REFRESH_TOKEN_SECRET)
     // const accessToken = user.genToken()
+    const maxAgeInMilliseconds = 20 * 24 * 60 * 60 * 1000;
 
-    req.cookies = { refreshToken: refreshToken}
+    res.cookie("refreshToken", refreshToken, {httpOnly: true, maxAge: maxAgeInMilliseconds})
 
     const docs = await DocModel.find({
         $or: [
@@ -41,13 +44,19 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
         ],
       });
 
+    user = sanitize(user.toObject());
+
     res.json({
+        code: HttpStatusCodes.OK,
         "message": "You are logged in...",
-        accessToken: accessToken,
-        documents: docs,
-        firstName: user.firstName,
-        email: user.email,
-        role: user.role
+        data: {
+          user,
+          docs,
+          tokens: {
+            accessToken,
+            refreshToken
+          }
+        }
               
       });
     

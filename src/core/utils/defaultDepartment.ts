@@ -1,4 +1,4 @@
-import { Department } from "../models/department";
+import { Department } from "../../models/department";
 import { config } from "../config/env";
 
 

@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import { IUSER } from "../interface/user.interface";
 import { departmentSchema } from "./department";
 import jwt from "jsonwebtoken";
-import { config } from "../config/env";
+import { config } from "../core/config/env";
 
 export const userSchema = new Schema<IUSER>(
   {

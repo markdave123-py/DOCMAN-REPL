@@ -1,7 +1,7 @@
 import { Department } from "../models/department";
 import { NextFunction, Request, Response } from 'express';
-import { HttpStatusCodes } from "../commonErrors/httpCode";
-import { isSuperAdmin } from "../utils/isSuperAdmin";
+import { HttpStatusCodes } from "../core/Errors/httpCode";
+import { isSuperAdmin } from "../core/utils/isSuperAdmin";
 
 
 

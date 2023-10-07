@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { controllerHandler } from "../middlewares/controllerHandlers";
+import { controllerHandler } from "../core/middlewares/controllerHandlers";
 import { getDepartments } from "../controllers/departmentController";
 import { getCategories } from "../controllers/categoriesControllers";
 

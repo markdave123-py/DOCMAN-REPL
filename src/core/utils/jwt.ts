@@ -1,5 +1,5 @@
 import * as jwt from "jsonwebtoken";
-import { IDepartment } from "../interface/department.interface";
+import { IDepartment } from "../../interface/department.interface";
 
 export const genToken = (user: {email: string, role: string, department: IDepartment}, secretKey: string) => {
   

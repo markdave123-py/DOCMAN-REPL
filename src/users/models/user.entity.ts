@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { IUSER } from "./user.entity.interface";
-import { hashPassword, comparePassword } from "../../utils/hash";
+import { hashPassword, comparePassword } from "../../core/utils/hash";
 // import { departmentSchema } from "./department";
 // import jwt from "jsonwebtoken";
 // import { config } from "../config/env";

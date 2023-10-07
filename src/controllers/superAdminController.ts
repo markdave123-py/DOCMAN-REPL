@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../models/user";
-import { config } from "../config/env";
-import { HttpStatusCodes } from "../commonErrors/httpCode";
+import { config } from "../core/config/env";
+import { HttpStatusCodes } from "../core/Errors/httpCode";
 import { userEmail } from "../auth/services/current.user";
 import { inviteAdminModel } from "../models/inviteAdmin";
-import { isSuperAdmin } from "../utils/isSuperAdmin";
-import { sendMail } from "../utils/mailSender";
+import { isSuperAdmin } from "../core/utils/isSuperAdmin";
+import { sendMail } from "../core/utils/mailSender";
 import { Admin } from "../models/admin";
 import { Department } from "../models/department";
 

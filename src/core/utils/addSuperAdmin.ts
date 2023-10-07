@@ -1,8 +1,8 @@
 import { config } from "../config/env";
 import { hashPassword } from "./hash";
-import { User } from "../models/user";
-import { Department } from "../models/department";
-import { Category } from "../models/categories";
+import { User } from "../../models/user";
+import { Department } from "../../models/department";
+import { Category } from "../../models/categories";
 
 export const addAdminToDb = async () => {
   const allAdmin = await User.countDocuments({role: "admin"});

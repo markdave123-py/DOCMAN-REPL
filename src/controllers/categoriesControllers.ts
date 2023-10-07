@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction, request } from "express";
 import { Category } from "../models/categories";
-import { isSuperAdmin } from "../utils/isSuperAdmin";
+import { isSuperAdmin } from "../core/utils/isSuperAdmin";
 // import fs from 'fs';
-import { HttpStatusCodes } from "../commonErrors/httpCode";
+import { HttpStatusCodes } from "../core/Errors/httpCode";
 
 
 

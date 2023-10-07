@@ -1,7 +1,7 @@
-import { IDepartment } from "../interface/department.interface";
-import { IdocSchema } from "../interface/doc.interface";
-import { TokenUser } from "../interface/token.user.interface";
-import { User } from "../models/user";
+import { IDepartment } from "../../interface/department.interface";
+import { IdocSchema } from "../../interface/doc.interface";
+import { TokenUser } from "../../interface/token.user.interface";
+import { User } from "../../models/user";
 
 export const returnArray = (arr: string[]): string[] =>{
   return Array.isArray(arr)

@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { Admin } from "../models/admin";
 import { DocModel } from "../models/doc";
-import { isAdminOrHasAccess } from "../utils/docAccess";
-import { getAccessibleDocuments } from "../utils/docAccess";
-import { HttpStatusCodes } from "../commonErrors/httpCode";
+import { isAdminOrHasAccess } from "../core/utils/docAccess";
+import { getAccessibleDocuments } from "../core/utils/docAccess";
+import { HttpStatusCodes } from "../core/Errors/httpCode";
 import { User } from "../models/user";
 
 export const getDocumments = async (

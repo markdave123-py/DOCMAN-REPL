@@ -1,6 +1,6 @@
 import { NextFunction, Response, Request } from "express";
 import { inviteAdminModel } from "../models/inviteAdmin";
-import { HttpStatusCodes } from "../commonErrors/httpCode";
+import { HttpStatusCodes } from "../core/Errors/httpCode";
 import { User } from "../models/user";
 // import { Admin } from "../models/admin";
 

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, RequestHandler } from "express";
-import { config } from "../../config/env";
-import { verifyToken } from "../../utils/jwt";
+import { config } from "../../core/config/env";
+import { verifyToken } from "../../core/utils/jwt";
 import { TokenUser } from "../../interface/token.user.interface";
 
 
@@ -29,7 +29,7 @@ export const verifyJwt: RequestHandler =  (req: Request, res: Response, next: Ne
     } catch (err: any) {
         req.user =  null
         console.log(err.message, err)
-        res.status(400).json("Error with token verification....")
+        res.status(403).json("Invalid or Expired token....")
         next(err);
         return
         

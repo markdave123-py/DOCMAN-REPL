@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { TokenUser } from "../interface/token.user.interface";
+import { TokenUser } from "../../interface/token.user.interface";
 
 declare global {
     namespace Express {

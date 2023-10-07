@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../../models/user';
-import { hashPassword} from '../../utils/hash'
+import { hashPassword} from '../../core/utils/hash'
 import { Department } from '../../models/department';
-import { HttpStatusCodes } from '../../commonErrors/httpCode';
+import { HttpStatusCodes } from '../../core/Errors/httpCode';
 
 export const createNewUser = async (req: Request, res: Response, next: NextFunction,) => {
   try {
@@ -18,7 +18,7 @@ export const createNewUser = async (req: Request, res: Response, next: NextFunct
 
     if (user) 
         {
-            return res.status(HttpStatusCodes.CONFLICT).json({"Error": "Bad request!!, you already have an account with us.."});
+          return res.status(HttpStatusCodes.CONFLICT).json({"Error": "Bad request!!, you already have an account with us.."});
         }
       
     const department = await Department.findOne({ name: departmentName });
