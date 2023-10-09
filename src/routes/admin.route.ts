@@ -2,7 +2,7 @@ import { Router } from "express";
 import { getAllAdmins } from "../controllers/superAdminController";
 import { makeUserAdmin } from "../controllers/superAdminController";
 import { createDepratment } from "../controllers/departmentController";
-import { controllerHandler } from "../core/middlewares/controllerHandlers";
+import { controllerHandler } from "../core/config/middlewares/controllerHandlers";
 import { createCategories } from "../controllers/categoriesControllers";
 
 

@@ -3,7 +3,7 @@ import {
   acceptInvitation,
   rejectInvitation,
 } from "../controllers/accept.invitation";
-import { controllerHandler } from "../core/middlewares/controllerHandlers";
+import { controllerHandler } from "../core/config/middlewares/controllerHandlers";
 
 export const inviteRoute = Router();
 

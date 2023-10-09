@@ -1,6 +1,6 @@
 import multer from "multer";
 import * as cloudinary from "cloudinary";
-import { config } from "../config/env";
+import { config } from "../env";
 
 export const configUpload = () => {
   cloudinary.v2.config({

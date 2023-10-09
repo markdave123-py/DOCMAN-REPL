@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { createNewUser, handleLogin, refreshToken } from "../services";
 import {  signInSchema, signUpSchema } from "./schema";
-import { controllerHandler } from "../../core/middlewares/controllerHandlers";
+import { controllerHandler } from "../../core/config/middlewares/controllerHandlers";
 // import { createNewUserSchema, userLoginSchema } from "../validation/schema";
 // import { getAllUsers } from "../auth/services/sign.up";
 

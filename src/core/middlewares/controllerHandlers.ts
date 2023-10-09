@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { ValidationSchema } from "../types/interface";
-import { AnyFunction } from "../types/types";
-import { ExpressCallBackFunction } from "../types/types";
-import { validateIncomingRequest } from "../validation/joiValidation";
+import { ValidationSchema } from "../../types/interface";
+import { AnyFunction } from "../../types/types";
+import { ExpressCallBackFunction } from "../../types/types";
+import { validateIncomingRequest } from "../../validation/joiValidation";
 
 const parseControllerArgs = (req: Request) => {
   return {
