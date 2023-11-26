@@ -7,7 +7,7 @@ import { addAdminToDb, defaultCategory } from './core/utils/addSuperAdmin';
 import { router } from './routes/userRoute';
 import { verifyJwt } from './auth/services/current.user';
 import { adminRouter } from './routes/admin.route';
-import { docRoute } from './routes/docRoute';
+import { docRoute } from './docs/routes/docRoute';
 import { createDefaultDepartment } from './core/utils/defaultDepartment';
 import { departmentRouter } from './routes/departmentRoute';
 import { inviteRoute } from './routes/acceptInvite.route';

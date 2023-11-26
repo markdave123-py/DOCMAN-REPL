@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { metaDataSchema } from "./metaData";
+import { metaDataSchema } from "../../models/metaData";
 import { IdocSchema } from "../interface/doc.interface";
 
 export const docSchema = new Schema<IdocSchema>(

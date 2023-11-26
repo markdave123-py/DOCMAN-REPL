@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { DocModel } from "../models/doc";
-import { metaDataModel } from "../models/metaData";
-import { streamUploadFile } from "../core/utils/uploadUtils";
-import { Category } from "../models/categories";
-import { returnArray } from "../core/utils/docAccess";
+import { metaDataModel } from "../../models/metaData";
+import { streamUploadFile } from "../../core/utils/uploadUtils";
+import { Category } from "../../models/categories";
+import { returnArray } from "../../core/utils/docAccess";
 // import fs from 'fs';
-import { HttpStatusCodes } from "../core/Errors/httpCode";
+import { HttpStatusCodes } from "../../core/Errors/httpCode";
 
 export const uploadDocument = async (req: Request, res: Response) => {
   try {

@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { controllerHandler } from "../core/config/middlewares/controllerHandlers";
-import { getDocumments } from "../controllers/docController";
-import { getOneDocument } from "../controllers/docController";
+import { getDocumments } from "../services/docController";
+import { getOneDocument } from "../services/docController";
 import { configUpload } from "../core/config/middlewares/configDoc";
-import { uploadDocument } from "../controllers/uploadDocController";
+import { uploadDocument } from "../services/uploadDocController";
 
 const upload = configUpload();
 

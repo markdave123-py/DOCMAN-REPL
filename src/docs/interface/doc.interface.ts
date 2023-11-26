@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
-import { ImetaDataSchema } from "./metadata.interface";
-import { ICategory } from "./category.interface";
+import { ImetaDataSchema } from "../../interface/metadata.interface";
+import { ICategory } from "../../interface/category.interface";
 
 export interface IdocSchema extends Document {
   name: string;

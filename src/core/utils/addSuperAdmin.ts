@@ -5,7 +5,7 @@ import { Department } from "../../models/department";
 import { Category } from "../../models/categories";
 
 export const addAdminToDb = async () => {
-  const allAdmin = await User.countDocuments({role: "admin"});
+  const allAdmin = await User.countDocuments({role: "admin"});alid_palindrome
   const department = await Department.findOne({name: config.DEFAULT_DEPARTMENT})
 
   if (allAdmin === 0) {

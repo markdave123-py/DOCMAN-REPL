@@ -1,5 +1,5 @@
 import { IDepartment } from "../../interface/department.interface";
-import { IdocSchema } from "../../interface/doc.interface";
+import { IdocSchema } from "../../docs/interface/doc.interface";
 import { TokenUser } from "../../interface/token.user.interface";
 import { User } from "../../models/user";
 
@@ -40,8 +40,6 @@ export const isAdminOrHasAccess =  (user: TokenUser, doc: IdocSchema) => {
 
 
 export const getAccessibleDocuments = 
-
-
 
 (user: TokenUser) => {
   const { email, role, department } = user;

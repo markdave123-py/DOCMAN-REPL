@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../../models/user";
 import { genToken } from "../../core/utils/jwt";
-import { DocModel } from "../../models/doc";
+import { DocModel } from "../../docs/models/doc";
 import { comparePassword } from "../../core/utils/hash";
 import { config } from "../../core/config/env";
 import { sanitize } from "../../core/utils/Helper";
